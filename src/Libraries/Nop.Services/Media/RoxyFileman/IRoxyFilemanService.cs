@@ -19,6 +19,11 @@ namespace Nop.Services.Media.RoxyFileman
         /// </summary>
         string GetConfigurationFilePath();
 
+        /// <summary>
+        /// Create configuration file for RoxyFileman
+        /// </summary>
+        dynamic CreateConfiguration();
+
         #endregion
 
         #region Directories
