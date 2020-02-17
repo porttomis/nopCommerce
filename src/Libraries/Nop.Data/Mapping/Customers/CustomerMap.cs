@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nop.Core.Domain.Customers;
 
@@ -27,6 +27,8 @@ namespace Nop.Data.Mapping.Customers
 
             builder.Property(customer => customer.BillingAddressId).HasColumnName("BillingAddress_Id");
             builder.Property(customer => customer.ShippingAddressId).HasColumnName("ShippingAddress_Id");
+            builder.Property(customer => customer.MappedStoreID).HasColumnName("MappedStoreID");
+            builder.Property(customer => customer.MappedStoreUserType).HasColumnName("MappedStoreUserType").HasMaxLength(16);
 
             builder.HasOne(customer => customer.BillingAddress)
                 .WithMany()

@@ -604,6 +604,8 @@ namespace Nop.Web.Areas.Admin.Controllers
                     else
                         _notificationService.ErrorNotification(_localizationService.GetResource("Admin.Customers.Customers.AdminAccountShouldExists.Deactivate"));
 
+
+
                     //email
                     if (!string.IsNullOrWhiteSpace(model.Email))
                         _customerRegistrationService.SetEmail(customer, model.Email, false);
@@ -645,6 +647,10 @@ namespace Nop.Web.Areas.Admin.Controllers
 
                     //vendor
                     customer.VendorId = model.VendorId;
+
+                    // Store Mapping // Porttomis Inc.
+                    customer.MappedStoreID = model.MappedStoreID;
+                    customer.MappedStoreUserType = model.MappedStoreUserType;
 
                     //form fields
                     if (_dateTimeSettings.AllowCustomersToSetTimeZone)

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Nop.Core.Domain.Common;
@@ -142,6 +142,18 @@ namespace Nop.Core.Domain.Customers
         /// Gets or sets the shipping address identifier
         /// </summary>
         public int? ShippingAddressId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the shipping address identifier
+        /// </summary>
+        public int MappedStoreID { get; set; }
+
+        /// <summary>
+        /// Gets or sets the shipping address identifier
+        /// </summary>
+        public string MappedStoreUserType { get; set; }
+
+
 
         #region Navigation properties
 
