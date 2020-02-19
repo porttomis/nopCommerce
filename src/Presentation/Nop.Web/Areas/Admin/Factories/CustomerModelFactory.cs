@@ -687,6 +687,8 @@ namespace Nop.Web.Areas.Admin.Factories
                 //whether to fill in some of properties
                 if (!excludeProperties)
                 {
+                    model.MappedStoreID = customer.MappedStoreID;
+                    model.MappedStoreUserType = customer.MappedStoreUserType;
                     model.Email = customer.Email;
                     model.Username = customer.Username;
                     model.VendorId = customer.VendorId;

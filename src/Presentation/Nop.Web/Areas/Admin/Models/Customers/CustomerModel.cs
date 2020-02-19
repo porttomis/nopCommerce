@@ -48,8 +48,13 @@ namespace Nop.Web.Areas.Admin.Models.Customers
         #region Properties
 
          // Porttomis Inc.
-       [NopResourceDisplayName("Admin.Customers.Customers.Fields.StoreId")]
-        public int StoreId { get; set; }
+       [NopResourceDisplayName("Admin.Customers.Customers.Fields.MappedStoreID")]
+        public int MappedStoreID { get; set; }
+
+        // Porttomis Inc.
+        [NopResourceDisplayName("Admin.Customers.Customers.Fields.MappedStoreUserType")]
+        public string MappedStoreUserType { get; set; }
+
         // Porttomis Inc.
         public IList<SelectListItem> AvailableStores { get; set; }
 
