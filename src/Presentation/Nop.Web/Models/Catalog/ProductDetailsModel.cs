@@ -144,6 +144,7 @@ namespace Nop.Web.Models.Catalog
             public string CustomerEnteredPriceRange { get; set; }
 
             public bool DisableBuyButton { get; set; }
+            public bool ChiliDisableBuyButton { get; set; }
             public bool DisableWishlistButton { get; set; }
 
             //Porttomis Inc.
