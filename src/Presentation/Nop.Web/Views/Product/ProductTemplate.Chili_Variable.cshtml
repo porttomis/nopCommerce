@@ -42,6 +42,8 @@
         Html.AddHeadCustomParts("<meta property=\"twitter:image\" content=\"" + Model.DefaultPictureModel.ImageUrl + "\" />");
         Html.AddHeadCustomParts("<meta property=\"twitter:url\" content=\"" + webHelper.GetThisPageUrl(false) + "\" />");
     }
+
+    Model.AddToCart.ChiliDisableBuyButton = true;
 }
 <!--product breadcrumb-->
 @section Breadcrumb
