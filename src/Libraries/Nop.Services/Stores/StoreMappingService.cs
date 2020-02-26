@@ -1,7 +1,8 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Nop.Core;
+using Nop.Core.Domain.Customers;
 using Nop.Core.Caching;
 using Nop.Core.Data;
 using Nop.Core.Domain.Catalog;
@@ -23,6 +24,7 @@ namespace Nop.Services.Stores
         private readonly IRepository<StoreMapping> _storeMappingRepository;
         private readonly IStaticCacheManager _cacheManager;
         private readonly IStoreContext _storeContext;
+        private readonly IRepository<Customer> _customerRepository;
 
         #endregion
 
@@ -31,12 +33,14 @@ namespace Nop.Services.Stores
         public StoreMappingService(CatalogSettings catalogSettings,
             IEventPublisher eventPublisher,
             IRepository<StoreMapping> storeMappingRepository,
+            IRepository<Customer> customerRepository,
             IStaticCacheManager cacheManager,
             IStoreContext storeContext)
         {
             _catalogSettings = catalogSettings;
             _eventPublisher = eventPublisher;
             _storeMappingRepository = storeMappingRepository;
+            _customerRepository = customerRepository;
             _cacheManager = cacheManager;
             _storeContext = storeContext;
         }
@@ -229,13 +233,27 @@ namespace Nop.Services.Stores
 
         public virtual List<int> GetStoreIdByEntityId(int entityId, string entityName)
         {
-            var query = from sm in _storeMappingRepository.Table
-                        where sm.EntityId == entityId &&
-                        sm.EntityName == entityName
-                        //orderby sm.EntityName
-                        select sm.StoreId;
-            var result = query.Distinct().ToList();
-            return result;
+            if (entityName == "Admin" || entityName == "Stores")
+            {
+                var query = from sm in _customerRepository.Table
+                            where sm.Id == entityId 
+                            //&&sm .EntityName == entityName
+                            //orderby sm.EntityName
+                            select sm.MappedStoreID;
+                var result = query.Distinct().ToList();
+                return result;
+            }
+            else
+            {
+                var query = from sm in _storeMappingRepository.Table
+                            where sm.EntityId == entityId &&
+                            sm.EntityName == entityName
+                            //orderby sm.EntityName
+                            select sm.StoreId;
+                var result = query.Distinct().ToList();
+                return result;
+            }
+            
         }
 
         public virtual List<int> GetEntityIdByListStoreId(int[] storeIds, string entityName)

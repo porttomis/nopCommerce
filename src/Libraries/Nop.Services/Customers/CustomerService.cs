@@ -17,6 +17,7 @@ using Nop.Data;
 using Nop.Services.Common;
 using Nop.Services.Events;
 using Nop.Services.Localization;
+//using Nop.Services.Customers;
 
 namespace Nop.Services.Customers
 {
@@ -120,13 +121,31 @@ namespace Nop.Services.Customers
             var storeMappingRepository = Nop.Core.Infrastructure.EngineContext.Current.Resolve<IRepository<Nop.Core.Domain.Stores.StoreMapping>>();
             int storeId = _storeMappingService.CurrentStore();
 
+            //Porttomis Inc.
+            //var mappedstoreusertype = GetCustomerStoreUserTypeByEmail(email);
+            
             if (storeId > 0)
-                query = from c in query
-                        join sm in storeMappingRepository.Table
-                        on new { c1 = c.Id, c2 = "Stores" } equals new { c1 = sm.EntityId, c2 = sm.EntityName } into c_sm
-                        from sm in c_sm.DefaultIfEmpty()
-                        where storeId == sm.StoreId
-                        select c;
+                // Porttomis Inc.
+                //if (mappedstoreusertype == "Admin")
+                //{
+                    
+                    query = from c in query
+                            join sm in storeMappingRepository.Table
+                            on new { c1 = c.Id, c2 = "Stores" } equals new { c1 = sm.EntityId, c2 = sm.EntityName } into c_sm
+                            from sm in c_sm.DefaultIfEmpty()
+                            //where storeId == sm.StoreId
+                            select c;
+            //    }
+            //else
+            //    {
+            //        query = from c in query
+            //                join sm in storeMappingRepository.Table
+            //                on new { c1 = c.Id, c2 = "Stores" } equals new { c1 = sm.EntityId, c2 = sm.EntityName } into c_sm
+            //                from sm in c_sm.DefaultIfEmpty()
+            //                where storeId == sm.StoreId
+            //                select c;
+
+            //    }
             #endregion
 
             if (createdFromUtc.HasValue)
@@ -451,12 +470,48 @@ namespace Nop.Services.Customers
                 return null;
 
             var query = from c in _customerRepository.Table
-                        // orderby c.Id // Porttomis Inc.
+                            // orderby c.Id // Porttomis Inc.
                         orderby c.Email
                         where c.Email == email
                         select c;
             var customer = query.FirstOrDefault();
             return customer;
+        }
+        /// <summary>
+        /// Get customer storeid by email
+        /// </summary>
+        /// <param name="email">Email</param>
+        /// <returns>Customer</returns>
+        public virtual int GetCustomerStoreIdByEmail(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+                return -1;
+
+            var query = from c in _customerRepository.Table
+                            // orderby c.Id // Porttomis Inc.
+                        orderby c.Email
+                        where c.Email == email
+                        select c.MappedStoreID;
+            var customerstoreid = query.FirstOrDefault();
+            return customerstoreid;
+        }
+        /// <summary>
+        /// Get customer storeid by email
+        /// </summary>
+        /// <param name="email">Email</param>
+        /// <returns>Customer</returns>
+        public virtual string GetCustomerStoreUserTypeByEmail(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+                return null;
+
+            var query = from c in _customerRepository.Table
+                            // orderby c.Id // Porttomis Inc.
+                        orderby c.Email
+                        where c.Email == email
+                        select c.MappedStoreUserType;
+            var customerstoreusertype = query.FirstOrDefault();
+            return customerstoreusertype;
         }
 
         /// <summary>

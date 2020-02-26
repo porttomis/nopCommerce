@@ -318,13 +318,23 @@ namespace Nop.Web.Factories
 
                 model.Signature = _genericAttributeService.GetAttribute<string>(customer, NopCustomerDefaults.SignatureAttribute);
 
+                // Porttomis Inc.
+                model.MappedStoreID = customer.MappedStoreID;
+                model.MappedStoreUserType = customer.MappedStoreUserType;
+
                 model.Email = customer.Email;
                 model.Username = customer.Username;
+
             }
             else
             {
                 if (_customerSettings.UsernamesEnabled && !_customerSettings.AllowUsersToChangeUsernames)
                     model.Username = customer.Username;
+
+                //Porttomis Inc.
+                model.MappedStoreID = customer.MappedStoreID;
+                model.MappedStoreUserType = customer.MappedStoreUserType;
+
             }
 
             if (_customerSettings.UserRegistrationType == UserRegistrationType.EmailValidation)
