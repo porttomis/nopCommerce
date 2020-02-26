@@ -18,7 +18,12 @@ namespace Nop.Web.Models.Customer
             CustomerAttributes = new List<CustomerAttributeModel>();
             GdprConsents = new List<GdprConsentModel>();
         }
-        
+
+        public int MappedStoreID { get; set; }
+
+        public string MappedStoreUserType { get; set; }
+
+
         [DataType(DataType.EmailAddress)]
         [NopResourceDisplayName("Account.Fields.Email")]
         public string Email { get; set; }

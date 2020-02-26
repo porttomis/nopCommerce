@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using Nop.Core;
 using Nop.Core.Domain.Customers;
@@ -150,6 +150,7 @@ namespace Nop.Services.Customers
             customer.CannotLoginUntilDateUtc = null;
             customer.RequireReLogin = false;
             customer.LastLoginDateUtc = DateTime.UtcNow;
+            
             _customerService.UpdateCustomer(customer);
 
             return CustomerLoginResults.Successful;

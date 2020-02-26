@@ -10,7 +10,7 @@ namespace Nop.Core.Domain.Customers
         /// <summary>
         /// Gets or sets a value indicating Store customer is mapped to //Porttomis Inc
         /// </summary>
-        public bool MappedStoreID { get; set; }
+        public int MappedStoreID { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating Mapped Store User Type //Porttomis Inc
