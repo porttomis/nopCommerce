@@ -44,6 +44,7 @@ namespace Nop.Services.Customers
         private readonly ShoppingCartSettings _shoppingCartSettings;
 
         #endregion
+        private Customer _cachedCustomer;
 
         #region Ctor
 
@@ -122,31 +123,31 @@ namespace Nop.Services.Customers
             int storeId = _storeMappingService.CurrentStore();
 
             //Porttomis Inc.
-            //var mappedstoreusertype = GetCustomerStoreUserTypeByEmail(email);
-            
+            var _workContext = Nop.Core.Infrastructure.EngineContext.Current.Resolve<Nop.Core.IWorkContext>();
+            var mappedstoreusertype = _workContext.CurrentCustomer.MappedStoreUserType;
+
             if (storeId > 0)
-                // Porttomis Inc.
-                //if (mappedstoreusertype == "Admin")
-                //{
-                    
+               // Porttomis Inc.
+                if (mappedstoreusertype.ToLower() == "admin")
+                {
+
                     query = from c in query
                             join sm in storeMappingRepository.Table
                             on new { c1 = c.Id, c2 = "Stores" } equals new { c1 = sm.EntityId, c2 = sm.EntityName } into c_sm
                             from sm in c_sm.DefaultIfEmpty()
-                            //where storeId == sm.StoreId
                             select c;
-            //    }
-            //else
-            //    {
-            //        query = from c in query
-            //                join sm in storeMappingRepository.Table
-            //                on new { c1 = c.Id, c2 = "Stores" } equals new { c1 = sm.EntityId, c2 = sm.EntityName } into c_sm
-            //                from sm in c_sm.DefaultIfEmpty()
-            //                where storeId == sm.StoreId
-            //                select c;
+                }
+                else
+                {
+                    query = from c in query
+                            join sm in storeMappingRepository.Table
+                            on new { c1 = c.Id, c2 = "Stores" } equals new { c1 = sm.EntityId, c2 = sm.EntityName } into c_sm
+                            from sm in c_sm.DefaultIfEmpty()
+                            where storeId == sm.StoreId
+                            select c;
 
-            //    }
-            #endregion
+                }
+                #endregion
 
             if (createdFromUtc.HasValue)
                 query = query.Where(c => createdFromUtc.Value <= c.CreatedOnUtc);
@@ -477,11 +478,13 @@ namespace Nop.Services.Customers
             var customer = query.FirstOrDefault();
             return customer;
         }
+
         /// <summary>
         /// Get customer storeid by email
         /// </summary>
         /// <param name="email">Email</param>
         /// <returns>Customer</returns>
+        /// 
         public virtual int GetCustomerStoreIdByEmail(string email)
         {
             if (string.IsNullOrWhiteSpace(email))

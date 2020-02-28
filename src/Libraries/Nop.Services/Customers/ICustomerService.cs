@@ -107,6 +107,20 @@ namespace Nop.Services.Customers
         Customer GetCustomerByEmail(string email);
 
         /// <summary>
+        /// Get customer store ID by email
+        /// </summary>
+        /// <param name="email">Email</param>
+        /// <returns>Customer</returns>
+        int GetCustomerStoreIdByEmail(string email);
+
+        /// <summary>
+        /// Get customer store user type by email
+        /// </summary>
+        /// <param name="email">Email</param>
+        /// <returns>Customer</returns>
+        string GetCustomerStoreUserTypeByEmail(string email);
+
+        /// <summary>
         /// Get customer by system role
         /// </summary>
         /// <param name="systemName">System name</param>
