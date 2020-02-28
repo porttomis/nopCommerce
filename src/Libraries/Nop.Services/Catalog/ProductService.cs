@@ -680,6 +680,13 @@ namespace Nop.Services.Catalog
             var pCategoryIds = _dataProvider.GetStringParameter("CategoryIds", commaSeparatedCategoryIds);
             var pManufacturerId = _dataProvider.GetInt32Parameter("ManufacturerId", manufacturerId);
             var pStoreId = _dataProvider.GetInt32Parameter("StoreId", !_catalogSettings.IgnoreStoreLimitations ? storeId : 0);
+
+            //Porttomis Inc.
+            if (_workContext.CurrentCustomer.MappedStoreUserType.ToLower() == "admin")
+            {
+                pStoreId = _dataProvider.GetInt32Parameter("StoreId", 0);
+            }
+
             var pVendorId = _dataProvider.GetInt32Parameter("VendorId", vendorId);
             var pWarehouseId = _dataProvider.GetInt32Parameter("WarehouseId", warehouseId);
             var pProductTypeId = _dataProvider.GetInt32Parameter("ProductTypeId", (int?)productType);

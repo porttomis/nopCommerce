@@ -150,7 +150,10 @@ namespace Nop.Services.Customers
             customer.CannotLoginUntilDateUtc = null;
             customer.RequireReLogin = false;
             customer.LastLoginDateUtc = DateTime.UtcNow;
-            
+            //customer.MappedStoreID = _customerService.GetCustomerStoreIdByEmail(usernameOrEmail);
+            //customer.MappedStoreUserType = _customerService.GetCustomerStoreUserTypeByEmail(usernameOrEmail);
+
+
             _customerService.UpdateCustomer(customer);
 
             return CustomerLoginResults.Successful;
