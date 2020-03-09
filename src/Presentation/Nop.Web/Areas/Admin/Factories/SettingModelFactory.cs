@@ -68,6 +68,7 @@ namespace Nop.Web.Areas.Admin.Factories
         private readonly IThemeProvider _themeProvider;
         private readonly IVendorAttributeModelFactory _vendorAttributeModelFactory;
         private readonly IWorkContext _workContext;
+        
 
         #endregion
 
@@ -1580,8 +1581,11 @@ namespace Nop.Web.Areas.Admin.Factories
             var model = new StoreScopeConfigurationModel
             {
                 Stores = allStores.Select(store => store.ToModel<StoreModel>()).ToList(),
-                StoreId = _storeContext.ActiveStoreScopeConfiguration
+                //,StoreId = _storeContext.ActiveStoreScopeConfiguration
+                StoreId = _genericAttributeService
+                .GetAttribute<int>(_workContext.CurrentCustomer, NopCustomerDefaults.AdminAreaStoreScopeConfigurationAttribute)
             };
+            
 
             return model;
 

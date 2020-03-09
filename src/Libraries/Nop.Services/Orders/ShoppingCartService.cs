@@ -583,6 +583,7 @@ namespace Nop.Services.Orders
                 throw new ArgumentNullException(nameof(customer));
 
             var items = customer.ShoppingCartItems.AsEnumerable();
+            
 
             //filter by type
             if (shoppingCartType.HasValue)

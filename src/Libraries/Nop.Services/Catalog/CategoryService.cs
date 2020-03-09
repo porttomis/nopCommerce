@@ -129,6 +129,12 @@ namespace Nop.Services.Catalog
             IList<Category> categories;
             if (loadCacheableCopy)
             {
+                //Porttomis Inc.
+                //allows Admin to see all categories 
+                var usertype = _workContext.CurrentCustomer.MappedStoreUserType;
+                if (usertype != null  && usertype.ToLower() == "admin")
+                    storeId = 0;
+
                 //cacheable copy
                 var key = string.Format(NopCatalogDefaults.CategoriesAllCacheKey,
                     storeId,

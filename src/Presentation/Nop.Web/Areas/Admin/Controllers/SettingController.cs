@@ -161,12 +161,15 @@ namespace Nop.Web.Areas.Admin.Controllers
 
         public virtual IActionResult ChangeStoreScopeConfiguration(int storeid, string returnUrl = "")
         {
+
             var store = _storeService.GetStoreById(storeid);
             if (store != null || storeid == 0)
             {
                 _genericAttributeService
-                    .SaveAttribute(_workContext.CurrentCustomer, NopCustomerDefaults.AdminAreaStoreScopeConfigurationAttribute, storeid);
+                    .SaveAttribute( _workContext.CurrentCustomer, NopCustomerDefaults.AdminAreaStoreScopeConfigurationAttribute, storeid);
             }
+
+
 
             //home page
             if (string.IsNullOrEmpty(returnUrl))
