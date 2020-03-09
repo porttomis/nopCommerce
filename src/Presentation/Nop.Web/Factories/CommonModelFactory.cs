@@ -371,8 +371,12 @@ namespace Nop.Web.Factories
             //performance optimization (use "HasShoppingCartItems" property)
             if (customer.HasShoppingCartItems)
             {
-                model.ShoppingCartItems = _shoppingCartService.GetShoppingCart(customer, ShoppingCartType.ShoppingCart, _storeContext.CurrentStore.Id)
-                    .Sum(item => item.Quantity);
+                // Porttomis Inc
+                // Set Shopping cart Qty to the number of unique products in the cart
+                // Todo: Make this an option (Item Total Quantity or Item Unique Count
+                //model.ShoppingCartItems = _shoppingCartService.GetShoppingCart(customer, ShoppingCartType.ShoppingCart, _storeContext.CurrentStore.Id)
+                //    .Sum(item => item.Quantity);
+                model.ShoppingCartItems = _shoppingCartService.GetShoppingCart(customer, ShoppingCartType.ShoppingCart, _storeContext.CurrentStore.Id).Count;
 
                 model.WishlistItems = _shoppingCartService.GetShoppingCart(customer, ShoppingCartType.Wishlist, _storeContext.CurrentStore.Id)
                     .Sum(item => item.Quantity);

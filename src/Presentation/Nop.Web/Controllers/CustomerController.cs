@@ -415,10 +415,11 @@ namespace Nop.Web.Controllers
 
                             var _storeMappingService = Nop.Core.Infrastructure.EngineContext.Current.Resolve<Nop.Services.Stores.IStoreMappingService>();
                             var storesId = _storeMappingService.GetStoreIdByEntityId(customer.Id, "Stores").LastOrDefault();
-                            
+
                             if (storesId > 0)
                             {
                                 _storeContext.CurrentStore.Id = storesId;
+
                             }
 
                             _logger.InsertLog(Nop.Core.Domain.Logging.LogLevel.Debug, "Store Details", " StoresID:" + storesId.ToString() + ", CurrentStoreID: " + _storeContext.CurrentStore.Id.ToString(), null);
