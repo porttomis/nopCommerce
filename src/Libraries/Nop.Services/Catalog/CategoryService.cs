@@ -168,31 +168,32 @@ namespace Nop.Services.Catalog
         public virtual IPagedList<Category> GetAllCategories(string categoryName, int storeId = 0,
             int pageIndex = 0, int pageSize = int.MaxValue, bool showHidden = false)
         {
-            if (_commonSettings.UseStoredProcedureForLoadingCategories)
-            {
-                //stored procedures are enabled for loading categories and supported by the database. 
-                //It's much faster with a large number of categories than the LINQ implementation below 
+            ////// Porttomis Inc. -- Commented out to ensure Storeproc is never used. 
+            //////if (_commonSettings.UseStoredProcedureForLoadingCategories)
+            //////{
+            //////    //stored procedures are enabled for loading categories and supported by the database. 
+            //////    //It's much faster with a large number of categories than the LINQ implementation below 
 
-                //prepare parameters
-                var showHiddenParameter = _dataProvider.GetBooleanParameter("ShowHidden", showHidden);
-                var nameParameter = _dataProvider.GetStringParameter("Name", categoryName ?? string.Empty);
-                var storeIdParameter = _dataProvider.GetInt32Parameter("StoreId", !_catalogSettings.IgnoreStoreLimitations ? storeId : 0);
-                var pageIndexParameter = _dataProvider.GetInt32Parameter("PageIndex", pageIndex);
-                var pageSizeParameter = _dataProvider.GetInt32Parameter("PageSize", pageSize);
-                //pass allowed customer role identifiers as comma-delimited string
-                var customerRoleIdsParameter = _dataProvider.GetStringParameter("CustomerRoleIds", !_catalogSettings.IgnoreAcl ? string.Join(",", _workContext.CurrentCustomer.GetCustomerRoleIds()) : string.Empty);
+            //////    //prepare parameters
+            //////    var showHiddenParameter = _dataProvider.GetBooleanParameter("ShowHidden", showHidden);
+            //////    var nameParameter = _dataProvider.GetStringParameter("Name", categoryName ?? string.Empty);
+            //////    var storeIdParameter = _dataProvider.GetInt32Parameter("StoreId", !_catalogSettings.IgnoreStoreLimitations ? storeId : 0);
+            //////    var pageIndexParameter = _dataProvider.GetInt32Parameter("PageIndex", pageIndex);
+            //////    var pageSizeParameter = _dataProvider.GetInt32Parameter("PageSize", pageSize);
+            //////    //pass allowed customer role identifiers as comma-delimited string
+            //////    var customerRoleIdsParameter = _dataProvider.GetStringParameter("CustomerRoleIds", !_catalogSettings.IgnoreAcl ? string.Join(",", _workContext.CurrentCustomer.GetCustomerRoleIds()) : string.Empty);
 
-                var totalRecordsParameter = _dataProvider.GetOutputInt32Parameter("TotalRecords");
+            //////    var totalRecordsParameter = _dataProvider.GetOutputInt32Parameter("TotalRecords");
 
-                //invoke stored procedure
-                var categories = _dbContext.EntityFromSql<Category>("CategoryLoadAllPaged",
-                    showHiddenParameter, nameParameter, storeIdParameter, customerRoleIdsParameter,
-                    pageIndexParameter, pageSizeParameter, totalRecordsParameter).ToList();
-                var totalRecords = totalRecordsParameter.Value != DBNull.Value ? Convert.ToInt32(totalRecordsParameter.Value) : 0;
+            //////    //invoke stored procedure
+            //////    var categories = _dbContext.EntityFromSql<Category>("CategoryLoadAllPaged",
+            //////        showHiddenParameter, nameParameter, storeIdParameter, customerRoleIdsParameter,
+            //////        pageIndexParameter, pageSizeParameter, totalRecordsParameter).ToList();
+            //////    var totalRecords = totalRecordsParameter.Value != DBNull.Value ? Convert.ToInt32(totalRecordsParameter.Value) : 0;
 
-                //paging
-                return new PagedList<Category>(categories, pageIndex, pageSize, totalRecords);
-            }
+            //////    //paging
+            //////    return new PagedList<Category>(categories, pageIndex, pageSize, totalRecords);
+            //////}
 
             //don't use a stored procedure. Use LINQ
             var query = _categoryRepository.Table;
@@ -200,8 +201,9 @@ namespace Nop.Services.Catalog
                 query = query.Where(c => c.Published);
             if (!string.IsNullOrWhiteSpace(categoryName))
                 query = query.Where(c => c.Name.Contains(categoryName));
+
             query = query.Where(c => !c.Deleted);
-            //query = query.OrderBy(c => c.ParentCategoryId).ThenBy(c => c.DisplayOrder).ThenBy(c => c.Id); //Porttomis Inc.
+
             query = query.OrderBy(c => c.Name).ThenBy(c => c.DisplayOrder).ThenBy(c => c.Id);
 
             if ((storeId > 0 && !_catalogSettings.IgnoreStoreLimitations) || (!showHidden && !_catalogSettings.IgnoreAcl))
@@ -254,7 +256,16 @@ namespace Nop.Services.Catalog
 
             }
             #endregion
+
             var unsortedCategories = query.ToList();
+
+            // Porttomis Inc. include subcategories in a category search by value/string
+            if (!string.IsNullOrWhiteSpace(categoryName))
+            {
+                var ids = unsortedCategories.Select(c => c.Id).ToArray();
+                var subcategories = _categoryRepository.Table.Where(c => ids.Contains(c.ParentCategoryId));
+                unsortedCategories = unsortedCategories.Concat(subcategories).ToList();
+            }
 
             //sort categories
             var sortedCategories = SortCategoriesForTree(unsortedCategories);
@@ -334,6 +345,8 @@ namespace Nop.Services.Catalog
                 }
                 #endregion
                 var categories = query.ToList();
+
+
                 return categories;
             });
         }
