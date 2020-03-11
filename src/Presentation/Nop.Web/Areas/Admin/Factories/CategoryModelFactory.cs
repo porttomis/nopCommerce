@@ -88,9 +88,9 @@ namespace Nop.Web.Areas.Admin.Factories
                     if (storeId.Count > 0) model.SelectedStoreIds = storeId;
                 }
 
-                if (storeId.Count <= 0)
-                    model.LimitedToStores = false;
-                else model.LimitedToStores = true;
+                //if (storeId.Count <= 0)
+                //    model.LimitedToStores = false;
+                //else model.LimitedToStores = true;
             }
         }
         #endregion

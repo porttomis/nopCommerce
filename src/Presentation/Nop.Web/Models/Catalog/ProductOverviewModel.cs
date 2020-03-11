@@ -36,7 +36,11 @@ namespace Nop.Web.Models.Catalog
         //price
         public ProductReviewOverviewModel ReviewOverviewModel { get; set; }
 
-		#region Nested Classes
+        //Porttomis Inc.
+        public bool RequiresEditor { get; set; }
+
+
+        #region Nested Classes
 
         public partial class ProductPriceModel : BaseNopModel
         {
@@ -50,8 +54,7 @@ namespace Nop.Web.Models.Catalog
 
             public bool DisableBuyButton { get; set; }
 
-            //Porttomis Inc.
-            public bool RequiresEditor { get; set; }
+
             public bool DisableWishlistButton { get; set; }
             public bool DisableAddToCompareListButton { get; set; }
 
