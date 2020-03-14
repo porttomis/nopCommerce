@@ -36,8 +36,12 @@ namespace Nop.Web.Models.Catalog
         //price
         public ProductReviewOverviewModel ReviewOverviewModel { get; set; }
 
-        //Porttomis Inc.
+        //Porttomis Inc. - Indicates the product is an editable template
         public bool RequiresEditor { get; set; }
+
+        //Porttomis Inc. - Indicates hid prices from Customers
+        public bool ShowPrices { get; set; }
+
 
 
         #region Nested Classes

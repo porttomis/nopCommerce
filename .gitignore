@@ -188,3 +188,12 @@ src/Presentation/Nop.Web/wwwroot/images/uploaded/*
 src/Presentation/Nop.Web/wwwroot/files/exportimport/*
 !src/Presentation/Nop.Web/wwwroot/files/exportimport/Index.htm
 src/packages/*
+
+####################
+# Porttomis specific
+####################
+src/Plugins/Nop.Plugin.Services.Tharstern
+src/Plugins/Nop.Plugin.Widgets.ChiliView/
+src/Presentation/Nop.Web/wwwroot/pdf
+
+

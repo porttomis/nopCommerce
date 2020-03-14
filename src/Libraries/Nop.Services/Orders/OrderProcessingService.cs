@@ -1540,7 +1540,7 @@ namespace Nop.Services.Orders
 
                 //prepare order details
                 var details = PreparePlaceOrderDetails(processPaymentRequest);
-
+                
                 var processPaymentResult = GetProcessPaymentResult(processPaymentRequest, details);
 
                 if (processPaymentResult == null)

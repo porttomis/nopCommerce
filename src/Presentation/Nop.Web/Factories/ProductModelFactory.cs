@@ -567,7 +567,7 @@ namespace Nop.Web.Factories
                 ProductId = product.Id
             };
 
-            if (_permissionService.Authorize(StandardPermissionProvider.DisplayPrices))
+            if (!!_storeContext.CurrentStore.Showprices || _permissionService.Authorize(StandardPermissionProvider.DisplayPrices))
             {
                 model.HidePrices = false;
                 if (product.CustomerEntersPrice)
@@ -1114,6 +1114,7 @@ namespace Nop.Web.Factories
                     Sku = product.Sku,
                     ProductType = product.ProductType,
                     RequiresEditor = product.RequiresEditor, // Porttomis Inc.
+                    ShowPrices = _storeContext.CurrentStore.Showprices,
                     MarkAsNew = product.MarkAsNew &&
                         (!product.MarkAsNewStartDateTimeUtc.HasValue || product.MarkAsNewStartDateTimeUtc.Value < DateTime.UtcNow) &&
                         (!product.MarkAsNewEndDateTimeUtc.HasValue || product.MarkAsNewEndDateTimeUtc.Value > DateTime.UtcNow)
