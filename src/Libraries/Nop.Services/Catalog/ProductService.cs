@@ -682,7 +682,7 @@ namespace Nop.Services.Catalog
             var pStoreId = _dataProvider.GetInt32Parameter("StoreId", !_catalogSettings.IgnoreStoreLimitations ? storeId : 0);
 
             //Porttomis Inc.
-            if (_workContext.CurrentCustomer.MappedStoreUserType.ToLower() == "admin")
+            if (_workContext.CurrentCustomer.MappedStoreUserType != null && _workContext.CurrentCustomer.MappedStoreUserType.ToLower() == "admin")
             {
                 pStoreId = _dataProvider.GetInt32Parameter("StoreId", 0);
             }

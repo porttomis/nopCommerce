@@ -34,6 +34,8 @@ namespace Nop.Services.Stores
             CompanyName = s.CompanyName;
             CompanyAddress = s.CompanyAddress;
             CompanyPhoneNumber = s.CompanyPhoneNumber;
+            OrderApprovals = s.OrderApprovals;
+            Showprices = s.Showprices;
             CompanyVat = s.CompanyVat;
         }
     }

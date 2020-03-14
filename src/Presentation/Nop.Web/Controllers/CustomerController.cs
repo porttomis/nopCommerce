@@ -422,6 +422,7 @@ namespace Nop.Web.Controllers
 
                             }
 
+                            
                             _logger.InsertLog(Nop.Core.Domain.Logging.LogLevel.Debug, "Store Details", " StoresID:" + storesId.ToString() + ", CurrentStoreID: " + _storeContext.CurrentStore.Id.ToString(), null);
 
 

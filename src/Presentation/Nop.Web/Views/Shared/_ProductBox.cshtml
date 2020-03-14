@@ -83,35 +83,36 @@
             @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.ProductBoxAddinfoMiddle, additionalData = Model })
         <div class="buttons">
             @*<input type="button" value="@T("Products.Details")" class="button-1 product-box-detail-button" onclick="setLocation('@Url.RouteUrl("Product", new { SeName = Model.SeName })')" />*@
-            @* Added by Porttomis Inc. - Check for requires editor flag and if true hide add to cart  *@
-            @if (!Model.RequiresEditor) 
+            @* Added by Porttomis Inc. - Check for requires editor flag and if true hide add to cart
+             @if (!Model.RequiresEditor) // Removed per Rawson. They prefer to remove the one click add to cart, instead to use button to load product page
+            {*@
+            if (!Model.ProductPrice.DisableBuyButton)
             {
-                if (!Model.ProductPrice.DisableBuyButton)
-                {
-                    var addToCartText = T("ShoppingCart.AddToCart").Text;
-                    if (Model.ProductPrice.IsRental)
-                    {
-                        addToCartText = T("ShoppingCart.Rent").Text;
-                    }
-                    if (Model.ProductPrice.AvailableForPreOrder)
-                    {
-                        addToCartText = T("ShoppingCart.PreOrder").Text;
-                    }
-                    <input type="button" value="@(addToCartText)" class="button-2 product-box-add-to-cart-button" onclick="AjaxCart.addproducttocart_catalog('@addtocartlink');return false;" />
-                }
-                @if (!Model.ProductPrice.DisableAddToCompareListButton)
-                {
-                    <input type="button" value="@T("ShoppingCart.AddToCompareList")" title="@T("ShoppingCart.AddToCompareList")" class="button-2 add-to-compare-list-button" onclick="AjaxCart.addproducttocomparelist('@addtocomparelink');return false;" />
-                }
-                @if (!Model.ProductPrice.DisableWishlistButton)
-                {
-                    <input type="button" value="@T("ShoppingCart.AddToWishlist")" title="@T("ShoppingCart.AddToWishlist")" class="button-2 add-to-wishlist-button" onclick="AjaxCart.addproducttocart_catalog('@addtowishlistlink');return false;" />
-                }
-            }
-            else
+            var addToCartText = T("ShoppingCart.AddToCart").Text;
+            if (Model.ProductPrice.IsRental)
             {
-                <input type="button" value="Disabled" title="You must edit the product template before you can Add to Cart"class="button-2 product-box-add-to-cart-button" disabled />
+            addToCartText = T("ShoppingCart.Rent").Text;
             }
+            if (Model.ProductPrice.AvailableForPreOrder)
+            {
+            addToCartText = T("ShoppingCart.PreOrder").Text;
+            }
+            <input type="button" value="Select Item" class="button-2 product-box-add-to-cart-button" onclick="setLocation('@Url.RouteUrl("Product", new { SeName = Model.SeName })')" />
+            @* <input type="button" value="@(addToCartText)" class="button-2 product-box-add-to-cart-button" onclick="AjaxCart.addproducttocart_catalog('@addtocartlink');return false;" /> *@
+            }
+            @if (!Model.ProductPrice.DisableAddToCompareListButton)
+                {
+            <input type="button" value="@T("ShoppingCart.AddToCompareList")" title="@T("ShoppingCart.AddToCompareList")" class="button-2 add-to-compare-list-button" onclick="AjaxCart.addproducttocomparelist('@addtocomparelink');return false;" />
+                }
+            @if (!Model.ProductPrice.DisableWishlistButton)
+                {
+            <input type="button" value="@T("ShoppingCart.AddToWishlist")" title="@T("ShoppingCart.AddToWishlist")" class="button-2 add-to-wishlist-button" onclick="AjaxCart.addproducttocart_catalog('@addtowishlistlink');return false;" />
+                }
+            @*}
+        else
+        {
+        <input type="button" value="Select Item" class="button-2 product-box-add-to-cart-button" onclick="setLocation('@Url.RouteUrl("Product", new { SeName = Model.SeName })')" />
+        }*@
         </div>
             @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.ProductBoxAddinfoAfter, additionalData = Model })
         </div>
