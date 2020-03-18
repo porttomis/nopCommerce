@@ -142,9 +142,16 @@
                                     {
                                         var editCartItemUrl = Url.RouteUrl("Product", new { SeName = item.ProductSeName }, webHelper.CurrentRequestProtocol);
                                         editCartItemUrl = webHelper.ModifyQueryString(editCartItemUrl, "updatecartitemid", item.Id.ToString());
-                                        <div class="edit-item">
-                                            <a href="@editCartItemUrl">@T("Common.Edit")</a>
-                                        </div>
+                                <div class="edit-item">
+                                    @if (item.RequiresEditor)
+                                    {
+                                        @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.ChiliTemplateEditor, additionalData = item })
+                                    }
+                                    else
+                                    {
+                                        <a href="@editCartItemUrl">@T("Common.Edit")</a>
+                                    }
+                                </div>
                                     }
                                     @if (item.Warnings.Count > 0)
                                     {
