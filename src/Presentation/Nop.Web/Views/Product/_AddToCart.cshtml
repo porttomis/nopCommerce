@@ -61,7 +61,7 @@
 
             //RequiresEditor?
             var cartButtonId = $"add-to-cart-button-{Model.ProductId}";
-            var chiliDisableValue = Model.ChiliDisableBuyButton ? "disabled" : "";
+            var chiliDisableValue = Model.RequiresEditor ? "disabled" : "";
             if (Model.UpdatedShoppingCartItemId > 0 && Model.UpdateShoppingCartItemType.HasValue && Model.UpdateShoppingCartItemType.Value == ShoppingCartType.ShoppingCart)
             {
                 addToCartText = T("ShoppingCart.AddToCart.Update").Text;

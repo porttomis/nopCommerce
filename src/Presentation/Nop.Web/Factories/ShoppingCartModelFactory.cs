@@ -374,6 +374,8 @@ namespace Nop.Web.Factories
                                               sci.Product.IsGiftCard) &&
                                              sci.Product.VisibleIndividually;
 
+            cartItemModel.RequiresEditor = sci.Product.RequiresEditor;
+
             //disable removal?
             //1. do other items require this one?
             cartItemModel.DisableRemoval = cart.Any(item => item.Product.RequireOtherProducts && _productService.ParseRequiredProductIds(item.Product).Contains(sci.ProductId));
