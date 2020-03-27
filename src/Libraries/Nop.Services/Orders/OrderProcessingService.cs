@@ -707,7 +707,7 @@ namespace Nop.Services.Orders
             }
             else
                 details.ShippingStatus = ShippingStatus.ShippingNotRequired;
-
+             
             //shipping total
             details.OrderShippingTotalInclTax = details.InitialOrder.OrderShippingInclTax;
             details.OrderShippingTotalExclTax = details.InitialOrder.OrderShippingExclTax;
@@ -778,6 +778,7 @@ namespace Nop.Services.Orders
                 CurrencyRate = details.CustomerCurrencyRate,
                 AffiliateId = details.AffiliateId,
                 OrderStatus = OrderStatus.Pending,
+                OrderApprovalStatusId = _storeContext.CurrentStore.OrderApprovals ? (int)OrderApprovalStatus.Pending : (int)OrderApprovalStatus.Approved, 
                 AllowStoringCreditCardNumber = processPaymentResult.AllowStoringCreditCardNumber,
                 CardType = processPaymentResult.AllowStoringCreditCardNumber ? _encryptionService.EncryptText(processPaymentRequest.CreditCardType) : string.Empty,
                 CardName = processPaymentResult.AllowStoringCreditCardNumber ? _encryptionService.EncryptText(processPaymentRequest.CreditCardName) : string.Empty,

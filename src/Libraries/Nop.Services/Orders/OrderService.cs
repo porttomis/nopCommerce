@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -183,8 +183,11 @@ namespace Nop.Services.Orders
             #endregion
 
             var query = _orderRepository.Table;
-            if (storeId > 0)
+            // Porttomis Inc.
+            if (storeId > 0 && !_workContext.IsAdmin)
                 query = query.Where(o => o.StoreId == storeId);
+            //if (storeId > 0) 
+            //    query = query.Where(o => o.StoreId == storeId);
             if (vendorId > 0)
                 query = query.Where(o => o.OrderItems.Any(orderItem => orderItem.Product.VendorId == vendorId));
             if (customerId > 0)
@@ -241,7 +244,7 @@ namespace Nop.Services.Orders
             //database layer paging
             return new PagedList<Order>(query, pageIndex, pageSize, getOnlyTotalCount);
         }
-
+         
         /// <summary>
         /// Inserts an order
         /// </summary>

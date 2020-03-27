@@ -22,7 +22,7 @@ using Nop.Services.Vendors;
 namespace Nop.Web.Framework
 {
     /// <summary>
-    /// Represents work context for web application
+    /// Represents work context for web application 
     /// </summary>
     public partial class WebWorkContext : IWorkContext
     {
@@ -110,7 +110,8 @@ namespace Nop.Web.Framework
             _httpContextAccessor.HttpContext.Response.Cookies.Delete(cookieName);
 
             //get date of cookie expiration
-            var cookieExpires = 24 * 365; //TODO make configurable
+            //var cookieExpires = 24 * 365; //TODO make configurable
+            var cookieExpires = 48; // Cookie set to expire at 48 hours
             var cookieExpiresDate = DateTime.Now.AddHours(cookieExpires);
 
             //if passed guid is empty set cookie as expired

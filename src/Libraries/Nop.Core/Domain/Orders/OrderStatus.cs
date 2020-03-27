@@ -1,4 +1,4 @@
-namespace Nop.Core.Domain.Orders
+﻿namespace Nop.Core.Domain.Orders
 {
     /// <summary>
     /// Represents an order status enumeration
@@ -8,7 +8,7 @@ namespace Nop.Core.Domain.Orders
         /// <summary>
         /// Pending
         /// </summary>
-        Needs_Approval = 0,
+        Unapproved = 0,
 
         /// <summary>
         /// Pending
@@ -18,7 +18,7 @@ namespace Nop.Core.Domain.Orders
         /// <summary>
         /// Processing
         /// </summary>
-        Processing = 20,
+        Processing = 20, 
 
         /// <summary>
         /// Complete

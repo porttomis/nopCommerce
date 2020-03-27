@@ -732,13 +732,13 @@ namespace Nop.Web.Areas.Admin.Factories
                     }
 
                     //prepare model newsletter subscriptions
-                    if (!string.IsNullOrEmpty(customer.Email))
-                    {
-                        #region Extensions by QuanNH
-                        model.SelectedNewsletterSubscriptionStoreIds = allStores.Where(store => _newsLetterSubscriptionService.GetNewsLetterSubscriptionByEmailAndStoreId(customer.Email, store.Id) != null)
-                            .Select(store => store.Id).ToList();
-                        #endregion
-                    }
+                    ////if (!string.IsNullOrEmpty(customer.Email))
+                    ////{
+                    ////    #region Extensions by QuanNH
+                    ////    model.SelectedNewsletterSubscriptionStoreIds = allStores.Where(store => _newsLetterSubscriptionService.GetNewsLetterSubscriptionByEmailAndStoreId(customer.Email, store.Id) != null)
+                    ////        .Select(store => store.Id).ToList();
+                    ////    #endregion
+                    ////}
                 }
                 //prepare reward points model
                 model.DisplayRewardPointsHistory = _rewardPointsSettings.Enabled;
@@ -802,12 +802,12 @@ namespace Nop.Web.Areas.Admin.Factories
 
             #region Extensions by QuanNH
             //prepare model stores for newsletter subscriptions
-            model.AvailableNewsletterSubscriptionStores = allStores.Select(store => new SelectListItem
-            {
-                Value = store.Id.ToString(),
-                Text = store.Name,
-                Selected = model.SelectedNewsletterSubscriptionStoreIds.Contains(store.Id)
-            }).ToList();
+            ////model.AvailableNewsletterSubscriptionStores = allStores.Select(store => new SelectListItem
+            ////{
+            ////    Value = store.Id.ToString(),
+            ////    Text = store.Name,
+            ////    Selected = model.SelectedNewsletterSubscriptionStoreIds.Contains(store.Id)
+            ////}).ToList();
             #endregion
             //prepare model customer roles
             _aclSupportedModelFactory.PrepareModelCustomerRoles(model);

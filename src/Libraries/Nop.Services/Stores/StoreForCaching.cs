@@ -37,6 +37,7 @@ namespace Nop.Services.Stores
             OrderApprovals = s.OrderApprovals;
             Showprices = s.Showprices;
             CompanyVat = s.CompanyVat;
+            ExternalID = s.ExternalID;
         }
     }
 }

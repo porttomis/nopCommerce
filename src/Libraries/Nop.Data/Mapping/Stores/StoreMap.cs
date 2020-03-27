@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nop.Core.Domain.Stores;
 
@@ -29,6 +29,7 @@ namespace Nop.Data.Mapping.Stores
             builder.Property(store => store.CompanyVat).HasMaxLength(1000);
             builder.Property(store => store.OrderApprovals).IsRequired();
             builder.Property(store => store.Showprices).IsRequired();
+            builder.Property(store => store.ExternalID).HasMaxLength(32);
 
             base.Configure(builder);
         }

@@ -434,7 +434,7 @@ namespace Nop.Web.Areas.Admin.Controllers
 
             return View(model);
         }
-
+         
         [HttpPost]
         public virtual IActionResult OrderList(OrderSearchModel searchModel)
         {
