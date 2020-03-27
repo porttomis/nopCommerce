@@ -141,7 +141,7 @@ namespace Nop.Web.Areas.Admin.Models.Orders
         public string OrderStatus { get; set; }
         [NopResourceDisplayName("Admin.Orders.Fields.OrderStatus")]
         public int OrderStatusId { get; set; }
-
+         
         //order approval status
         [NopResourceDisplayName("Admin.Orders.Fields.OrderApprovalStatus")]
         public string OrderApprovalStatus { get; set; }

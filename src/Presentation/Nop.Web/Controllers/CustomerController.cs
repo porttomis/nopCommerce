@@ -419,6 +419,7 @@ namespace Nop.Web.Controllers
                             if (storesId > 0)
                             {
                                 _storeContext.CurrentStore.Id = storesId;
+                                
 
                             }
 

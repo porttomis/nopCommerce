@@ -13,7 +13,7 @@ namespace Nop.Web.Areas.Admin.Models.Orders
     public partial class OrderSearchModel : BaseSearchModel
     {
         #region Ctor
-
+         
         public OrderSearchModel()
         {
             AvailableOrderStatuses = new List<SelectListItem>();

@@ -1,4 +1,4 @@
-using Nop.Core.Domain.Localization;
+﻿using Nop.Core.Domain.Localization;
 
 namespace Nop.Core.Domain.Stores
 {
@@ -66,6 +66,11 @@ namespace Nop.Core.Domain.Stores
         /// Gets or sets the if the company/store requires approvals // Porttomis Inc.
         /// </summary>
         public bool Showprices { get; set; }
+
+        /// <summary>
+        /// Gets or sets the if the company/store requires approvals // Porttomis Inc.
+        /// </summary>
+        public string ExternalID { get; set; }
 
     }
 }

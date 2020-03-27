@@ -85,8 +85,8 @@ namespace Nop.Services.Directory
         public virtual IList<Country> GetAllCountries(int languageId = 0, bool showHidden = false)
         {
             #region Extensions by QuanNH
-            //var key = string.Format(NopDirectoryDefaults.CountriesAllCacheKey, languageId, showHidden);
-            var key = string.Format(CountriesAllCacheKeyByStoreId, languageId, showHidden, _storeContext.CurrentStore.Id);
+            var key = string.Format(NopDirectoryDefaults.CountriesAllCacheKey, languageId, showHidden);
+            //var key = string.Format(CountriesAllCacheKeyByStoreId, languageId, showHidden, _storeContext.CurrentStore.Id);
             #endregion
 
             return _cacheManager.Get(key, () =>

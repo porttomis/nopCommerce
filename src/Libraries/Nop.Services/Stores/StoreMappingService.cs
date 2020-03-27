@@ -165,6 +165,7 @@ namespace Nop.Services.Stores
             var key = string.Format(NopStoreDefaults.StoreMappingByEntityIdNameCacheKey, entityId, entityName);
             return _cacheManager.Get(key, () =>
             {
+                
                 var query = from sm in _storeMappingRepository.Table
                             where sm.EntityId == entityId &&
                             sm.EntityName == entityName

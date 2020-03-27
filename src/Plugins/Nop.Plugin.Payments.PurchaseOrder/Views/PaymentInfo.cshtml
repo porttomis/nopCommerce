@@ -32,7 +32,7 @@
             <label asp-for="PurchaseOrderNumber">@T("Plugins.Payment.PurchaseOrder.PurchaseOrderNumber"):</label>
         </td>
         <td>
-            <input type="text" onchange="Validate_PO()" asp-for="PurchaseOrderNumber" style="width:165px;" autocomplete="off" />
+            <input type="text" oninput="Validate_PO()" asp-for="PurchaseOrderNumber" style="width:165px;" autocomplete="off" />
             <span asp-validation-for="PurchaseOrderNumber"></span>
 
         </td>

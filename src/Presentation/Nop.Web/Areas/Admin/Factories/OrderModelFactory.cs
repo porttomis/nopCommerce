@@ -1064,7 +1064,7 @@ namespace Nop.Web.Areas.Admin.Factories
                 model.CreatedOn = _dateTimeHelper.ConvertToUserTime(order.CreatedOnUtc, DateTimeKind.Utc);
                 model.CustomValues = _paymentService.DeserializeCustomValues(order);
                 model.OrderApprovalStatus = _localizationService.GetLocalizedEnum(order.OrderApprovalStatus);
-
+                 
                 var affiliate = _affiliateService.GetAffiliateById(order.AffiliateId);
                 if (affiliate != null)
                 {

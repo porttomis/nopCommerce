@@ -63,6 +63,11 @@ namespace Nop.Web.Areas.Admin.Models.Stores
         [NopResourceDisplayName("Admin.Configuration.Stores.Fields.ShowPrices")]
         public bool ShowPrices { get; set; }
 
+        // Added by Porttomis Inc.
+        [NopResourceDisplayName("Admin.Configuration.Stores.Fields.ExternalID")]
+        public string ExternalID { get; set; }
+
+        
         public IList<StoreLocalizedModel> Locales { get; set; }
 
 

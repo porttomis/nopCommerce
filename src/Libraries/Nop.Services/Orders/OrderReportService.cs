@@ -14,7 +14,7 @@ using Nop.Services.Helpers;
 namespace Nop.Services.Orders
 {
     /// <summary>
-    /// Order report service
+    /// Order report service 
     /// </summary>
     public partial class OrderReportService : IOrderReportService
     {

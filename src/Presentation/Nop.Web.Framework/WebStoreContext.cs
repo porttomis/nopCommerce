@@ -56,6 +56,7 @@ namespace Nop.Web.Framework
         {
             get
             {
+                // Porttomis Inc... maybe remove the cachedStore to avoid issues of having the wrong store loaded.  
                 if (_cachedStore != null)
                     return _cachedStore;
 
