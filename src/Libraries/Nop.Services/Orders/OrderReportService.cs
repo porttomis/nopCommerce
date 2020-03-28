@@ -149,6 +149,7 @@ namespace Nop.Services.Orders
             string billingPhone = null, string billingEmail = null, string billingLastName = "", string orderNotes = null)
         {
             #region Extensions by QuanNH
+            var _workContext = Nop.Core.Infrastructure.EngineContext.Current.Resolve<Nop.Core.IWorkContext>();
             var _storeMappingService = Nop.Core.Infrastructure.EngineContext.Current.Resolve<Nop.Services.Stores.IStoreMappingService>();
             //Current Store Admin
             if (_storeMappingService.CurrentStore() > 0)
@@ -160,8 +161,12 @@ namespace Nop.Services.Orders
 
             var query = _orderRepository.Table;
             query = query.Where(o => !o.Deleted);
-            if (storeId > 0)
+            // Porttomis Inc.
+            //if (storeId > 0)
+            //    query = query.Where(o => o.StoreId == storeId);
+            if (storeId > 0 && storeId > 0 && _workContext.CurrentCustomer.MappedStoreUserType.ToLower() == "stores")
                 query = query.Where(o => o.StoreId == storeId);
+            
             if (orderId > 0)
                 query = query.Where(o => o.Id == orderId);
             if (vendorId > 0)

@@ -12,11 +12,14 @@ namespace Nop.Web.Models.Order
             Orders = new List<OrderDetailsModel>();
             RecurringOrders = new List<RecurringOrderModel>();
             RecurringPaymentErrors = new List<string>();
+            
         }
 
         public IList<OrderDetailsModel> Orders { get; set; }
         public IList<RecurringOrderModel> RecurringOrders { get; set; }
         public IList<string> RecurringPaymentErrors { get; set; }
+
+        public bool ShowProductPrices { get; set; }
 
         #region Nested classes
 

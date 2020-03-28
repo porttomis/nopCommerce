@@ -13,5 +13,8 @@ namespace Nop.Web.Models.Catalog
 
         public bool IncludeShortDescriptionInCompareProducts { get; set; }
         public bool IncludeFullDescriptionInCompareProducts { get; set; }
+
+        //Porttomis Inc.
+        public bool ShowProductPrices { get; set; }
     }
 }

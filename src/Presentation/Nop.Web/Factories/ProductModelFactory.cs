@@ -1211,6 +1211,8 @@ namespace Nop.Web.Factories
             model.CompareProductsEnabled = _catalogSettings.CompareProductsEnabled;
             //store name
             model.CurrentStoreName = _localizationService.GetLocalized(_storeContext.CurrentStore, x => x.Name);
+            // Porttomis Inc. Hide Prices
+            model.ShowProductPrices = _storeContext.CurrentStore.Showprices;
 
             //vendor details
             if (_vendorSettings.ShowVendorOnProductDetailsPage)

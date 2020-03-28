@@ -184,7 +184,8 @@ namespace Nop.Services.Orders
 
             var query = _orderRepository.Table;
             // Porttomis Inc.
-            if (storeId > 0 && !_workContext.IsAdmin)
+            
+            if (storeId > 0 && _workContext.CurrentCustomer.MappedStoreUserType.ToLower() == "stores")
                 query = query.Where(o => o.StoreId == storeId);
             //if (storeId > 0) 
             //    query = query.Where(o => o.StoreId == storeId);

@@ -27,7 +27,7 @@ namespace Nop.Web.Models.ShoppingCart
         public bool ShowProductImages { get; set; }
         public bool IsEditable { get; set; }
         public IList<ShoppingCartItemModel> Items { get; set; }
-        
+
         public IList<CheckoutAttributeModel> CheckoutAttributes { get; set; }
 
         public IList<string> Warnings { get; set; }
@@ -44,6 +44,8 @@ namespace Nop.Web.Models.ShoppingCart
 
         public bool HideCheckoutButton { get; set; }
         public bool ShowVendorName { get; set; }
+
+        public bool ShowProductPrices { get; set; }
 
         #region Nested Classes
 

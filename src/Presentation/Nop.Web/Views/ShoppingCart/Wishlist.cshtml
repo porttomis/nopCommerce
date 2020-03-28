@@ -175,9 +175,13 @@
                                                 </div>
                                             }
                                         </td>
+                                       
                                         <td class="unit-price">
                                             <label class="td-title">@T("ShoppingCart.UnitPrice"):</label>
+                                            @if (!Model.ShowProductPrices)
+                                            { 
                                             <span class="product-unit-price">@item.UnitPrice</span>
+                                            }
                                         </td>
                                         <td class="quantity">
                                             <label class="td-title">@T("ShoppingCart.Quantity"):</label>
@@ -204,7 +208,10 @@
                                         </td>
                                         <td class="subtotal">
                                             <label class="td-title">@T("ShoppingCart.ItemTotal"):</label>
+                                            @if (!Model.ShowProductPrices)
+                                            { 
                                             <span class="product-subtotal">@item.SubTotal</span>
+                                            }
                                             @if (!string.IsNullOrEmpty(item.Discount))
                                             {
                                                 <div class="discount">

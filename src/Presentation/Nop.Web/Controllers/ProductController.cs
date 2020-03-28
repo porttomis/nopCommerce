@@ -606,6 +606,7 @@ namespace Nop.Web.Controllers
                 IncludeShortDescriptionInCompareProducts = _catalogSettings.IncludeShortDescriptionInCompareProducts,
                 IncludeFullDescriptionInCompareProducts = _catalogSettings.IncludeFullDescriptionInCompareProducts,
             };
+            model.ShowProductPrices = _storeContext.CurrentStore.Showprices;
 
             var products = _compareProductsService.GetComparedProducts();
 

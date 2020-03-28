@@ -47,7 +47,10 @@
                     @T("Order.OrderStatus"): @Model.OrderStatus
                 </li>
                 <li class="order-total">
-                    @T("Order.OrderTotal"): <strong>@Model.OrderTotal</strong>
+                    @if (!Model.ShowProductPrices)
+                    {
+                        @T("Order.OrderTotal"): <strong>@Model.OrderTotal</strong>
+                    }
                 </li>
             </ul>
             @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.OrderDetailsPageOverview, additionalData = Model })
@@ -561,6 +564,7 @@
                                         @T("Order.Product(s).VendorName")
                                     </th>
                                 }
+                                
                                 <th class="price">
                                     @T("Order.Product(s).Price")
                                 </th>
@@ -575,70 +579,76 @@
                         <tbody>
                             @foreach (var item in Model.Items)
                             {
-                                <tr>
-                                    @if (Model.ShowSku)
-                                    {
-                                        <td class="sku">
-                                            <label class="td-title">@T("Order.Product(s).SKU"):</label>
-                                            <span class="sku-number">@item.Sku</span>
-                                        </td>
-                                    }
-                                    <td class="product">
-                                        @if (!Model.PrintMode)
-                                        {
-                                            <em><a href="@Url.RouteUrl("Product", new { SeName = item.ProductSeName })">@item.ProductName</a></em>
-                                        }
-                                        else
-                                        {
-                                            @item.ProductName
-                                        }
-                                        @if (!string.IsNullOrEmpty(item.AttributeInfo))
-                                        {
-                                            <div class="attributes">
-                                                @Html.Raw(item.AttributeInfo)
-                                            </div>
-                                        }
-                                        @if (!string.IsNullOrEmpty(item.RentalInfo))
-                                        {
-                                            <div class="rental-info">
-                                                @Html.Raw(item.RentalInfo)
-                                            </div>
-                                        }
-                                        @if (item.DownloadId > 0)
-                                        {
-                                            <div class="download">
-                                                <a href="@Url.RouteUrl("GetDownload", new { orderItemId = item.OrderItemGuid })">@T("DownloadableProducts.Fields.Download")</a>
-                                            </div>
-                                        }
-                                        @if (item.LicenseId > 0)
-                                        {
-                                            <div class="download license">
-                                                <a href="@Url.RouteUrl("GetLicense", new {orderItemId = item.OrderItemGuid})">@T("DownloadableProducts.Fields.DownloadLicense")</a>
-                                            </div>
-                                        }
-                                        @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.OrderDetailsProductLine, additionalData = item })
+                            <tr>
+                                @if (Model.ShowSku)
+                                {
+                                    <td class="sku">
+                                        <label class="td-title">@T("Order.Product(s).SKU"):</label>
+                                        <span class="sku-number">@item.Sku</span>
                                     </td>
-                                    @if (Model.ShowVendorName)
+                                }
+                                <td class="product">
+                                    @if (!Model.PrintMode)
                                     {
-                                        <td class="vendor">
-                                            <label class="td-title">@T("Order.Product(s).VendorName"):</label>
-                                            <span class="vendor-name">@item.VendorName</span>
-                                        </td>
+                                        <em><a href="@Url.RouteUrl("Product", new { SeName = item.ProductSeName })">@item.ProductName</a></em>
                                     }
-                                    <td class="unit-price">
+                                    else
+                                    {
+                                        @item.ProductName
+                                    }
+                                    @if (!string.IsNullOrEmpty(item.AttributeInfo))
+                                    {
+                                        <div class="attributes">
+                                            @Html.Raw(item.AttributeInfo)
+                                        </div>
+                                    }
+                                    @if (!string.IsNullOrEmpty(item.RentalInfo))
+                                    {
+                                        <div class="rental-info">
+                                            @Html.Raw(item.RentalInfo)
+                                        </div>
+                                    }
+                                    @if (item.DownloadId > 0)
+                                    {
+                                        <div class="download">
+                                            <a href="@Url.RouteUrl("GetDownload", new { orderItemId = item.OrderItemGuid })">@T("DownloadableProducts.Fields.Download")</a>
+                                        </div>
+                                    }
+                                    @if (item.LicenseId > 0)
+                                    {
+                                        <div class="download license">
+                                            <a href="@Url.RouteUrl("GetLicense", new {orderItemId = item.OrderItemGuid})">@T("DownloadableProducts.Fields.DownloadLicense")</a>
+                                        </div>
+                                    }
+                                    @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.OrderDetailsProductLine, additionalData = item })
+                                </td>
+                                @if (Model.ShowVendorName)
+                                {
+                                    <td class="vendor">
+                                        <label class="td-title">@T("Order.Product(s).VendorName"):</label>
+                                        <span class="vendor-name">@item.VendorName</span>
+                                    </td>
+                                }
+                                <td class="unit-price">
+                                    @if (!Model.ShowProductPrices)// Porttomis Inc. Hide prices
+                                    {
                                         <label class="td-title">@T("Order.Product(s).Price"):</label>
                                         <span class="product-unit-price">@item.UnitPrice</span>
-                                    </td>
-                                    <td class="quantity">
-                                        <label class="td-title">@T("Order.Product(s).Quantity"):</label>
-                                        <span class="product-quantity">@item.Quantity</span>
-                                    </td>
-                                    <td class="total">
+                                    }
+                                </td>
+                                <td class="quantity">
+                                    <label class="td-title">@T("Order.Product(s).Quantity"):</label>
+                                    <span class="product-quantity">@item.Quantity</span>
+                                </td>
+                                <td class="total">
+                                    @if (!Model.ShowProductPrices)// Porttomis Inc. Hide prices
+                                    {
                                         <label class="td-title">@T("Order.Product(s).Total"):</label>
                                         <span class="product-subtotal">@item.SubTotal</span>
-                                    </td>
+                                    }
+                                </td>
                                 </tr>
-                            }
+                                }
                         </tbody>
                     </table>
                 </div>
@@ -665,6 +675,7 @@
                 <div class="total-info">
                     <table class="cart-total">
                         <tbody>
+                            @if (!Model.ShowProductPrices) { //Porttomis Inc.
                             <tr>
                                 <td class="cart-total-left">
                                     <label>@T("Order.SubTotal"):</label>
@@ -775,6 +786,7 @@
                                     <span><strong>@Model.OrderTotal</strong></span>
                                 </td>
                             </tr>
+                            }
                         </tbody>
                     </table>
                 </div>
