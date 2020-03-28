@@ -38,6 +38,8 @@ namespace Nop.Web.Models.ShoppingCart
 
         public string OrderTotal { get; set; }
 
+        public bool ShowProductPrices { get; set; }
+
         #region Nested classes
 
         public partial class TaxRate: BaseNopModel

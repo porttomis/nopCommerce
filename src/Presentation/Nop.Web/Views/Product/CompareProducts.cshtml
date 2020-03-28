@@ -67,15 +67,20 @@
                                 </td>
                             }
                         </tr>
+                      
                         <tr class="product-price">
                             <td>
                                 <label>@T("Products.Compare.Price")</label>
                             </td>
                             @foreach (var product in Model.Products)
                             {
-                                <td style="width: @columnWidth;">
-                                    @product.ProductPrice.Price
-                                </td>
+                        <td style="width: @columnWidth;">
+                            @*@product.ProductPrice.Price*@
+                            @if (!Model.ShowProductPrices)
+                            {
+                                @product.ProductPrice.Price
+                            }
+                    </td>
                             }
                         </tr>
                         @if (Model.IncludeShortDescriptionInCompareProducts)

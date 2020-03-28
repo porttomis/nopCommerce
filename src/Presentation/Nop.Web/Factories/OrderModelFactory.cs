@@ -148,6 +148,8 @@ namespace Nop.Web.Factories
                 };
                 var orderTotalInCustomerCurrency = _currencyService.ConvertCurrency(order.OrderTotal, order.CurrencyRate);
                 orderModel.OrderTotal = _priceFormatter.FormatPrice(orderTotalInCustomerCurrency, true, order.CustomerCurrencyCode, false, _workContext.WorkingLanguage);
+                
+                model.ShowProductPrices = _storeContext.CurrentStore.Showprices; //Porttomis Inc.
 
                 model.Orders.Add(orderModel);
             }
@@ -394,6 +396,9 @@ namespace Nop.Web.Factories
             //purchased products
             model.ShowSku = _catalogSettings.ShowSkuOnProductDetailsPage;
             model.ShowVendorName = _vendorSettings.ShowVendorOnOrderDetailsPage;
+
+            // Porttomis Inc
+            model.ShowProductPrices = _storeContext.CurrentStore.Showprices;
 
             var orderItems = order.OrderItems;
 

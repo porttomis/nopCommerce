@@ -823,6 +823,9 @@ namespace Nop.Web.Factories
             //if not loaded right now, then anyway the code below will load each product separately (multiple SQL commands)
             _productService.GetProductsByIds(cart.Select(sci => sci.ProductId).ToArray());
 
+            //Porttomis Inc.
+            model.ShowProductPrices = _storeContext.CurrentStore.Showprices;
+
             model.IsEditable = isEditable;
             model.ShowProductImages = _shoppingCartSettings.ShowProductImagesOnShoppingCart;
             model.ShowSku = _catalogSettings.ShowSkuOnProductDetailsPage;
@@ -906,6 +909,7 @@ namespace Nop.Web.Factories
                 model.OrderReviewData = PrepareOrderReviewDataModel(cart);
             }
 
+
             return model;
         }
 
@@ -943,6 +947,7 @@ namespace Nop.Web.Factories
             model.CustomerFullname = _customerService.GetCustomerFullName(customer);
             model.ShowProductImages = _shoppingCartSettings.ShowProductImagesOnWishList;
             model.ShowSku = _catalogSettings.ShowSkuOnProductDetailsPage;
+            model.ShowProductPrices = _storeContext.CurrentStore.Showprices;
 
             //cart warnings
             var cartWarnings = _shoppingCartService.GetShoppingCartWarnings(cart, "", false);
@@ -1230,6 +1235,9 @@ namespace Nop.Web.Factories
                     if (totalForRewardPoints > decimal.Zero)
                         model.WillEarnRewardPoints = _orderTotalCalculationService.CalculateRewardPoints(_workContext.CurrentCustomer, totalForRewardPoints);
                 }
+
+                // Porttomis Inc.
+                model.ShowProductPrices = _storeContext.CurrentStore.Showprices;
 
             }
 
