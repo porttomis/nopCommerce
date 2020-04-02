@@ -984,6 +984,7 @@ namespace Nop.Web.Controllers
             var model = _customerModelFactory.PrepareRegisterResultModel(resultId);
 
             #region Extensions by QuanNH
+            // Porttomis Inc. - Need to fix as it is no longer a call that is needed... I think because we store mapping in Customer table now
             var _storeMappingService = Nop.Core.Infrastructure.EngineContext.Current.Resolve<Nop.Services.Stores.IStoreMappingService>();
             string emailCustomer = _workContext.CurrentCustomer.Email;
             var getCustomer = _customerService.GetCustomerByEmail(emailCustomer);

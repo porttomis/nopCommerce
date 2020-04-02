@@ -367,8 +367,9 @@ namespace Nop.Web.Areas.Admin.Controllers
                 _customerService.InsertCustomer(customer);
 
                 #region Extensions by QuanNH
-                var _storeMappingService = Nop.Core.Infrastructure.EngineContext.Current.Resolve<Nop.Services.Stores.IStoreMappingService>();
-                _storeMappingService.InsertStoreMappingByEntity(customer.Id, "Stores", _storeContext.CurrentStore.Id);
+                // Porttomis Inc. Disabled due to mapping now contained in Customer Table
+                //var _storeMappingService = Nop.Core.Infrastructure.EngineContext.Current.Resolve<Nop.Services.Stores.IStoreMappingService>();
+                //_storeMappingService.InsertStoreMappingByEntity(customer.Id, "Stores", _storeContext.CurrentStore.Id);
 
                 #endregion
 

@@ -65,6 +65,7 @@ namespace Nop.Web.Areas.Admin.Factories
         #region Methods
 
         #region Extensions by QuanNH
+        // Porttomis Inc. - Need to fix as it is no longer a call that is needed... I think
         protected virtual void PrepareStoresMappingModel(BlogPostModel model, BlogPost blog, bool excludeProperties)
         {
             if (model == null)
@@ -219,6 +220,7 @@ namespace Nop.Web.Areas.Admin.Factories
             _baseAdminModelFactory.PrepareLanguages(model.AvailableLanguages, false);
 
             //prepare available stores
+            // Porttomis Inc. - Need to fix as it is no longer a call that is needed... I think
             _storeMappingSupportedModelFactory.PrepareModelStores(model, blogPost, excludeProperties);
             #region Extensions by QuanNH
             PrepareStoresMappingModel(model, blogPost, excludeProperties);

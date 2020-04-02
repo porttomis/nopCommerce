@@ -288,6 +288,12 @@ namespace Nop.Services.Stores
             var _workContext = Nop.Core.Infrastructure.EngineContext.Current.Resolve<IWorkContext>();
             List<int> customerIds = this.GetStoreIdByEntityId(_workContext.CurrentCustomer.Id, "Stores");
 
+            //Porttomis Inc. -- If the User is and Admin (Customer table, column MappedStoreUserType = "Admin")
+            if (_workContext.CurrentCustomer.MappedStoreUserType.ToLower() == "admin")
+            {
+                return true;
+            }
+
             if (storeId == customerIds.FirstOrDefault())
             {
                 return true;
