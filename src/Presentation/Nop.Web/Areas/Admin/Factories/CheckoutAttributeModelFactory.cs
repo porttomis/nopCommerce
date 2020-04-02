@@ -256,6 +256,7 @@ namespace Nop.Web.Areas.Admin.Factories
             _storeMappingSupportedModelFactory.PrepareModelStores(model, checkoutAttribute, excludeProperties);
 
             #region Extensions by QuanNH
+            // Porttomis Inc. - Need to fix as it is no longer a call that is needed... I think
             PrepareStoresMappingModel(model, checkoutAttribute, excludeProperties);
             #endregion
 

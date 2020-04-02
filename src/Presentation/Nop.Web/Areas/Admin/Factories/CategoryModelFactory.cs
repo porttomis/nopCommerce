@@ -88,6 +88,7 @@ namespace Nop.Web.Areas.Admin.Factories
                     if (storeId.Count > 0) model.SelectedStoreIds = storeId;
                 }
 
+                // Porttomis Inc. - I believe this was overriding a value when searching ...
                 //if (storeId.Count <= 0)
                 //    model.LimitedToStores = false;
                 //else model.LimitedToStores = true;
@@ -245,6 +246,7 @@ namespace Nop.Web.Areas.Admin.Factories
             _storeMappingSupportedModelFactory.PrepareModelStores(model, category, excludeProperties);
 
             #region Extensions by QuanNH
+            // Porttomis Inc. - Need to fix as it is no longer a call that is needed... I think
             PrepareStoresMappingModel(model, category, excludeProperties);
             #endregion
 
