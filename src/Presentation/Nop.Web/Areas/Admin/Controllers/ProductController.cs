@@ -2617,6 +2617,59 @@ namespace Nop.Web.Areas.Admin.Controllers
             return View(model);
         }
 
+        [HttpPost, ParameterBasedOnFormName("getproductinfo", "continueEditing")]
+        public virtual IActionResult GetExternalProduct(ProductAttributeMappingModel model, bool continueEditing, IFormCollection form)
+        {
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
+                return AccessDeniedView();
+
+            //try to get a product attribute mapping with the specified id
+            var productAttributeMapping = _productAttributeService.GetProductAttributeMappingById(model.Id)
+                ?? throw new ArgumentException("No product attribute mapping found with the specified id");
+
+            //try to get a product with the specified id
+            var product = _productService.GetProductById(productAttributeMapping.ProductId)
+                ?? throw new ArgumentException("No product found with the specified id");
+
+            //a vendor should have access only to his products
+            if (_workContext.CurrentVendor != null && product.VendorId != _workContext.CurrentVendor.Id)
+            {
+                _notificationService.ErrorNotification(_localizationService.GetResource("This is not your product"));
+                return RedirectToAction("List");
+            }
+
+            //ensure this attribute is not mapped yet
+            if (_productAttributeService.GetProductAttributeMappingsByProductId(product.Id)
+                .Any(x => x.ProductAttributeId == model.ProductAttributeId && x.Id != productAttributeMapping.Id))
+            {
+                //redisplay form
+                _notificationService.ErrorNotification(_localizationService.GetResource("Admin.Catalog.Products.ProductAttributes.Attributes.AlreadyExists"));
+
+                model = _productModelFactory.PrepareProductAttributeMappingModel(model, product, productAttributeMapping, true);
+
+                return View(model);
+            }
+
+            //fill entity from model
+            productAttributeMapping = model.ToEntity(productAttributeMapping);
+            _productAttributeService.UpdateProductAttributeMapping(productAttributeMapping);
+
+            UpdateLocales(productAttributeMapping, model);
+
+            SaveConditionAttributes(productAttributeMapping, model.ConditionModel, form);
+
+            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Catalog.Products.ProductAttributes.Attributes.Updated"));
+
+            if (!continueEditing)
+            {
+                //select an appropriate panel
+                SaveSelectedPanelName("product-product-attributes");
+                return RedirectToAction("Edit", new { id = product.Id });
+            }
+
+            return RedirectToAction("ProductAttributeMappingEdit", new { id = productAttributeMapping.Id });
+        }
+
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
         public virtual IActionResult ProductAttributeMappingEdit(ProductAttributeMappingModel model, bool continueEditing, IFormCollection form)
         {

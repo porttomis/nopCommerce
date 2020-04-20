@@ -7128,6 +7128,12 @@
   <LocaleResource Name="Admin.Configuration.Settings.GeneralCommon.YoutubeLink.Hint">
     <Value>Specify your YouTube channel URL. Leave empty if you have no such page.</Value>
   </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.GeneralCommon.InstagramLink">
+    <Value>Instagram URL</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.GeneralCommon.InstagramLink.Hint">
+    <Value>Specify your Instagram URL. Leave empty if you have no such account.</Value>
+  </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.Media">
     <Value>Media settings</Value>
   </LocaleResource>
@@ -15590,6 +15596,9 @@
   </LocaleResource>
   <LocaleResource Name="Footer.FollowUs.Youtube">
     <Value>YouTube</Value>
+  </LocaleResource>
+  <LocaleResource Name="Footer.FollowUs.Instagram">
+    <Value>Instagram</Value>
   </LocaleResource>
   <LocaleResource Name="Footer.Information">
     <Value>Information</Value>
