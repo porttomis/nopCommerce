@@ -31,6 +31,7 @@ using Nop.Services.Logging;
 using Nop.Services.Media;
 using Nop.Services.Messages;
 using Nop.Services.Orders;
+using Nop.Services.Stores;
 using Nop.Services.Tax;
 using Nop.Web.Extensions;
 using Nop.Web.Factories;
@@ -82,6 +83,7 @@ namespace Nop.Web.Controllers
         private readonly IShoppingCartService _shoppingCartService;
         private readonly IStateProvinceService _stateProvinceService;
         private readonly IStoreContext _storeContext;
+        private readonly IStoreService _storeService;
         private readonly ITaxService _taxService;
         private readonly IWebHelper _webHelper;
         private readonly IWorkContext _workContext;
@@ -129,6 +131,7 @@ namespace Nop.Web.Controllers
             IShoppingCartService shoppingCartService,
             IStateProvinceService stateProvinceService,
             IStoreContext storeContext,
+            IStoreService storeService,
             ITaxService taxService,
             IWebHelper webHelper,
             IWorkContext workContext,
@@ -172,6 +175,7 @@ namespace Nop.Web.Controllers
             _shoppingCartService = shoppingCartService;
             _stateProvinceService = stateProvinceService;
             _storeContext = storeContext;
+            _storeService = storeService;
             _taxService = taxService;
             _webHelper = webHelper;
             _workContext = workContext;
@@ -416,10 +420,31 @@ namespace Nop.Web.Controllers
                             var _storeMappingService = Nop.Core.Infrastructure.EngineContext.Current.Resolve<Nop.Services.Stores.IStoreMappingService>();
                             var storesId = _storeMappingService.GetStoreIdByEntityId(customer.Id, "Stores").LastOrDefault();
 
+                            // Porttomis Inc. - Update CurrentStoreID to that of the authenticated user
                             if (storesId > 0)
                             {
-                                _storeContext.CurrentStore.Id = storesId;
-                                
+                                try
+                                {
+                                    var userstore = _storeService.GetStoreById(storesId, false) ?? _storeContext.CurrentStore;
+
+                                    _storeContext.CurrentStore.Id = storesId;
+                                    _storeContext.CurrentStore.Name = userstore.Name;
+                                    _storeContext.CurrentStore.ExternalID = userstore.ExternalID;
+                                    _storeContext.CurrentStore.OrderApprovals = userstore.OrderApprovals;
+                                    _storeContext.CurrentStore.Showprices = userstore.Showprices;
+                                    _storeContext.CurrentStore.CompanyName = userstore.CompanyName;
+                                    _storeContext.CurrentStore.CompanyAddress = userstore.CompanyAddress;
+                                    _storeContext.CurrentStore.CompanyPhoneNumber = userstore.CompanyPhoneNumber;
+                                    _storeContext.CurrentStore.CompanyVat = userstore.CompanyVat;
+
+                                    string strlogUser = customer.Email.ToString() + " Logged in to" + userstore.Name.ToString();
+                                    _logger.InsertLog(Nop.Core.Domain.Logging.LogLevel.Information, "User Login Details", strlogUser, null);
+                                }
+                                catch (Exception e)
+                                {
+                                    _logger.InsertLog(Nop.Core.Domain.Logging.LogLevel.Debug,"User Login",e.Message.ToString(), null);
+                                }
+
 
                             }
 

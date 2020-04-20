@@ -9,5 +9,6 @@ namespace Nop.Web.Models.Common
         public string YoutubeLink { get; set; }
         public int WorkingLanguageId { get; set; }
         public bool NewsEnabled { get; set; }
+        public string InstagramLink { get; set; }
     }
 }
