@@ -139,6 +139,22 @@ namespace Nop.Web.Areas.Admin.Controllers
             //if we got this far, something failed, redisplay form
             return View(model);
         }
+        [HttpPost, ParameterBasedOnFormName("getstoreinfo", "continueEditing")]
+        public virtual IActionResult GetExternalStore(StoreModel model, bool continueEditing)
+        {
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageStores))
+                return AccessDeniedView();
+
+            if (ModelState.IsValid)
+            {
+                var store = model.ToEntity<Store>();
+            }
+            //prepare model
+            model = _storeModelFactory.PrepareStoreModel(model, null, true);
+
+            //if we got this far, something failed, redisplay form
+            return View(model);
+        }
 
         public virtual IActionResult Edit(int id)
         {
