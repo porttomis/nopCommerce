@@ -22,6 +22,9 @@ namespace Nop.Web.Areas.Admin.Models.Stores
 
         #region Properties
 
+        //Porttomis Inc.
+        public string ExternalStoreCode { get; set; }
+
         [NopResourceDisplayName("Admin.Configuration.Stores.Fields.Name")]
         public string Name { get; set; }
 

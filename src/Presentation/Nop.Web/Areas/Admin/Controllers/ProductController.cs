@@ -33,7 +33,7 @@ using Nop.Web.Areas.Admin.Models.Catalog;
 using Nop.Web.Framework.Controllers;
 using Nop.Web.Framework.Mvc;
 using Nop.Web.Framework.Mvc.Filters;
-
+ 
 namespace Nop.Web.Areas.Admin.Controllers
 {
     public partial class ProductController : BaseAdminController
@@ -71,6 +71,7 @@ namespace Nop.Web.Areas.Admin.Controllers
         private readonly IUrlRecordService _urlRecordService;
         private readonly IWorkContext _workContext;
         private readonly VendorSettings _vendorSettings;
+        
 
         #endregion
 
@@ -2618,56 +2619,18 @@ namespace Nop.Web.Areas.Admin.Controllers
         }
 
         [HttpPost, ParameterBasedOnFormName("getproductinfo", "continueEditing")]
-        public virtual IActionResult GetExternalProduct(ProductAttributeMappingModel model, bool continueEditing, IFormCollection form)
+        public virtual IActionResult GetExternalProduct(ProductModel model, bool continueEditing, IFormCollection form)
         {
+
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 return AccessDeniedView();
 
-            //try to get a product attribute mapping with the specified id
-            var productAttributeMapping = _productAttributeService.GetProductAttributeMappingById(model.Id)
-                ?? throw new ArgumentException("No product attribute mapping found with the specified id");
+            //prepare model
+            model = _productModelFactory.PrepareProductModel(model, null, true);
 
-            //try to get a product with the specified id
-            var product = _productService.GetProductById(productAttributeMapping.ProductId)
-                ?? throw new ArgumentException("No product found with the specified id");
+            //if we got this far, something failed, redisplay form
+            return View(model);
 
-            //a vendor should have access only to his products
-            if (_workContext.CurrentVendor != null && product.VendorId != _workContext.CurrentVendor.Id)
-            {
-                _notificationService.ErrorNotification(_localizationService.GetResource("This is not your product"));
-                return RedirectToAction("List");
-            }
-
-            //ensure this attribute is not mapped yet
-            if (_productAttributeService.GetProductAttributeMappingsByProductId(product.Id)
-                .Any(x => x.ProductAttributeId == model.ProductAttributeId && x.Id != productAttributeMapping.Id))
-            {
-                //redisplay form
-                _notificationService.ErrorNotification(_localizationService.GetResource("Admin.Catalog.Products.ProductAttributes.Attributes.AlreadyExists"));
-
-                model = _productModelFactory.PrepareProductAttributeMappingModel(model, product, productAttributeMapping, true);
-
-                return View(model);
-            }
-
-            //fill entity from model
-            productAttributeMapping = model.ToEntity(productAttributeMapping);
-            _productAttributeService.UpdateProductAttributeMapping(productAttributeMapping);
-
-            UpdateLocales(productAttributeMapping, model);
-
-            SaveConditionAttributes(productAttributeMapping, model.ConditionModel, form);
-
-            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Catalog.Products.ProductAttributes.Attributes.Updated"));
-
-            if (!continueEditing)
-            {
-                //select an appropriate panel
-                SaveSelectedPanelName("product-product-attributes");
-                return RedirectToAction("Edit", new { id = product.Id });
-            }
-
-            return RedirectToAction("ProductAttributeMappingEdit", new { id = productAttributeMapping.Id });
         }
 
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]

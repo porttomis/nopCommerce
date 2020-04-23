@@ -67,7 +67,9 @@ namespace Nop.Web.Areas.Admin.Models.Catalog
         #endregion
 
         #region Properties
-        
+        //Porttomis Inc. Product seach code
+
+        public string ExternalProductCode { get; set; }
         //picture thumbnail
         [NopResourceDisplayName("Admin.Catalog.Products.Fields.PictureThumbnailUrl")]
         public string PictureThumbnailUrl { get; set; }

@@ -7,7 +7,8 @@
     Html.SetActiveMenuItemSystemName("Products");
 }
 
-<form asp-controller="Product" asp-action="Create" method="post" id="product-form">
+
+
     <div class="content-header clearfix">
         <h1 class="pull-left">
             @T("Admin.Catalog.Products.AddNew")
@@ -16,24 +17,35 @@
                 <a asp-action="List">@T("Admin.Catalog.Products.BackToList")</a>
             </small>
         </h1>
-        <div class="pull-right">
-            <button type="submit" name="getproductinfo" class="btn bg-blue">
-                <i class="fa fa-floppy-o"></i>
-                @T("Admin.Common.GetProductInfo")
-            </button>
-            <button type="submit" name="save" class="btn bg-blue">
-                <i class="fa fa-floppy-o"></i>
-                @T("Admin.Common.Save")
-            </button>
-            <button type="submit" name="save-continue" class="btn bg-blue">
-                <i class="fa fa-floppy-o"></i>
-                @T("Admin.Common.SaveContinue")
-            </button>
-            @await Component.InvokeAsync("AdminWidget", new { widgetZone = AdminWidgetZones.ProductDetailsButtons })
-        </div>
+        <form asp-controller="Product" asp-action="GetExternalProduct" method="post" id="product-getexternal">
+            <div class="pull-right">
+                <div class="pull-right">
+                    <nop-editor asp-for="ExternalProductCode" />
+                    <span asp-validation-for="ExternalProductCode"></span>
+                </div>
+                <button type="submit" name="getproductinfo" class="btn bg-blue">
+                    <i class="fa fa-search"></i>
+                    @T("Admin.Common.GetProductInfo")
+                </button>
+            </div>
+        </form>
+        <form asp-controller="Product" asp-action="Create" method="post" id="product-form">
+            <div class="pull-right">
+                <button type="submit" name="save" class="btn bg-blue">
+                    <i class="fa fa-floppy-o"></i>
+                    @T("Admin.Common.Save")
+                </button>
+                <button type="submit" name="save-continue" class="btn bg-blue">
+                    <i class="fa fa-floppy-o"></i>
+                    @T("Admin.Common.SaveContinue")
+                </button>
+                @await Component.InvokeAsync("AdminWidget", new { widgetZone = AdminWidgetZones.ProductDetailsButtons })
+            </div>
+        </form>
     </div>
     @await Html.PartialAsync("_CreateOrUpdate", Model)
-</form>
+
+
 @if (!Model.IsLoggedInAsVendor)
 {
     //product editor settings modal
