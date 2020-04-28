@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Nop.Core.Domain.Stores;
 using Nop.Services.Configuration;
+using Nop.Services.Events;
 using Nop.Services.Localization;
 using Nop.Services.Logging;
 using Nop.Services.Messages;
@@ -12,7 +13,9 @@ using Nop.Web.Areas.Admin.Factories;
 using Nop.Web.Areas.Admin.Infrastructure.Mapper.Extensions;
 using Nop.Web.Areas.Admin.Models.Stores;
 using Nop.Web.Framework.Controllers;
+using Nop.Web.Framework.Events;
 using Nop.Web.Framework.Mvc.Filters;
+
 
 namespace Nop.Web.Areas.Admin.Controllers
 {
@@ -28,6 +31,7 @@ namespace Nop.Web.Areas.Admin.Controllers
         private readonly ISettingService _settingService;
         private readonly IStoreModelFactory _storeModelFactory;
         private readonly IStoreService _storeService;
+        private readonly IEventPublisher _eventPublisher;
 
         #endregion
 
@@ -40,7 +44,8 @@ namespace Nop.Web.Areas.Admin.Controllers
             IPermissionService permissionService,
             ISettingService settingService,
             IStoreModelFactory storeModelFactory,
-            IStoreService storeService)
+            IStoreService storeService,
+            IEventPublisher eventPublisher)
         {
             _customerActivityService = customerActivityService;
             _localizationService = localizationService;
@@ -50,6 +55,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             _settingService = settingService;
             _storeModelFactory = storeModelFactory;
             _storeService = storeService;
+            _eventPublisher = eventPublisher;
         }
 
         #endregion
@@ -145,15 +151,14 @@ namespace Nop.Web.Areas.Admin.Controllers
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageStores))
                 return AccessDeniedView();
 
-            if (ModelState.IsValid)
-            {
-                var store = model.ToEntity<Store>();
-            }
+            var storeModel = new StoreModel { ExternalID = model.ExternalStoreCode.ToString() };
+            _eventPublisher.Publish(new EntityModelQueryEvent<StoreModel>(storeModel));
+
             //prepare model
-            model = _storeModelFactory.PrepareStoreModel(model, null, true);
+            model = _storeModelFactory.PrepareStoreModel(storeModel, null, true);
 
             //if we got this far, something failed, redisplay form
-            return View(model);
+            return View("Create",model);
         }
 
         public virtual IActionResult Edit(int id)

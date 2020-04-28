@@ -18,6 +18,7 @@ using Nop.Services.Common;
 using Nop.Services.Configuration;
 using Nop.Services.Customers;
 using Nop.Services.Discounts;
+using Nop.Services.Events;
 using Nop.Services.ExportImport;
 using Nop.Services.Localization;
 using Nop.Services.Logging;
@@ -31,6 +32,7 @@ using Nop.Web.Areas.Admin.Factories;
 using Nop.Web.Areas.Admin.Infrastructure.Mapper.Extensions;
 using Nop.Web.Areas.Admin.Models.Catalog;
 using Nop.Web.Framework.Controllers;
+using Nop.Web.Framework.Events;
 using Nop.Web.Framework.Mvc;
 using Nop.Web.Framework.Mvc.Filters;
  
@@ -71,7 +73,7 @@ namespace Nop.Web.Areas.Admin.Controllers
         private readonly IUrlRecordService _urlRecordService;
         private readonly IWorkContext _workContext;
         private readonly VendorSettings _vendorSettings;
-        
+        private readonly IEventPublisher _eventPublisher;
 
         #endregion
 
@@ -107,7 +109,8 @@ namespace Nop.Web.Areas.Admin.Controllers
             ISpecificationAttributeService specificationAttributeService,
             IUrlRecordService urlRecordService,
             IWorkContext workContext,
-            VendorSettings vendorSettings)
+            VendorSettings vendorSettings,
+            IEventPublisher eventPublisher)
         {
             _aclService = aclService;
             _backInStockSubscriptionService = backInStockSubscriptionService;
@@ -140,6 +143,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             _urlRecordService = urlRecordService;
             _workContext = workContext;
             _vendorSettings = vendorSettings;
+            _eventPublisher = eventPublisher;
         }
 
         #endregion
@@ -790,7 +794,7 @@ namespace Nop.Web.Areas.Admin.Controllers
         }
 
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
-        public virtual IActionResult Create(ProductModel model, bool continueEditing)
+        public virtual IActionResult  Create(ProductModel model, bool continueEditing)
         {
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 return AccessDeniedView();
@@ -2621,16 +2625,22 @@ namespace Nop.Web.Areas.Admin.Controllers
         [HttpPost, ParameterBasedOnFormName("getproductinfo", "continueEditing")]
         public virtual IActionResult GetExternalProduct(ProductModel model, bool continueEditing, IFormCollection form)
         {
-
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 return AccessDeniedView();
 
             //prepare model
-            model = _productModelFactory.PrepareProductModel(model, null, true);
+            //model = _productModelFactory.PrepareProductModel(model, null, true);
+            var code = form["ExternalProductCode"].ToString();
+
+            var productModel = new ProductModel { Sku = code };
+            _eventPublisher.Publish(new EntityModelQueryEvent<ProductModel>(productModel));
 
             //if we got this far, something failed, redisplay form
-            return View(model);
+            //prepare model
+            model = _productModelFactory.PrepareProductModel(productModel, null, true);
 
+            return View("Create",model);
+            //return View(model);
         }
 
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
