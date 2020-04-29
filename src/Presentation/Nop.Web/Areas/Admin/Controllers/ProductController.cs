@@ -875,6 +875,30 @@ namespace Nop.Web.Areas.Admin.Controllers
             return View(model);
         }
 
+        [HttpPost, ParameterBasedOnFormName("getproductinfo", "continueEditing")]
+        public virtual IActionResult GetExternalProduct(ProductModel model, bool continueEditing, IFormCollection form)
+        {
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
+                return AccessDeniedView();
+
+            //prepare model
+            //model = _productModelFactory.PrepareProductModel(model, null, true);
+            var code = form["ExternalProductCode"].ToString();
+
+            //var productModel = new ProductModel { Sku = code };
+            //_eventPublisher.Publish(new EntityModelQueryEvent<ProductModel>(productModel));
+
+            model.Sku = code;
+            _eventPublisher.Publish(new EntityModelQueryEvent<ProductModel>(model));
+
+            ModelState.Clear();
+            TryValidateModel(model);
+
+            model = _productModelFactory.PrepareProductModel(model, null, true);
+
+            return View("Create", model);
+        }
+
         public virtual IActionResult Edit(int id)
         {
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
@@ -2620,27 +2644,6 @@ namespace Nop.Web.Areas.Admin.Controllers
             var model = _productModelFactory.PrepareProductAttributeMappingModel(null, product, productAttributeMapping);
 
             return View(model);
-        }
-
-        [HttpPost, ParameterBasedOnFormName("getproductinfo", "continueEditing")]
-        public virtual IActionResult GetExternalProduct(ProductModel model, bool continueEditing, IFormCollection form)
-        {
-            if (!_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
-                return AccessDeniedView();
-
-            //prepare model
-            //model = _productModelFactory.PrepareProductModel(model, null, true);
-            var code = form["ExternalProductCode"].ToString();
-
-            var productModel = new ProductModel { Sku = code };
-            _eventPublisher.Publish(new EntityModelQueryEvent<ProductModel>(productModel));
-
-            //if we got this far, something failed, redisplay form
-            //prepare model
-            model = _productModelFactory.PrepareProductModel(productModel, null, true);
-
-            return View("Create",model);
-            //return View(model);
         }
 
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
