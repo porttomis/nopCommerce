@@ -12,6 +12,7 @@ using Nop.Services.Common;
 using Nop.Services.Configuration;
 using Nop.Services.Customers;
 using Nop.Services.Discounts;
+using Nop.Services.Events;
 using Nop.Services.ExportImport;
 using Nop.Services.Localization;
 using Nop.Services.Logging;
@@ -77,7 +78,8 @@ namespace Nop.Plugin.Tax.Avalara.Controllers
             ITaxPluginManager taxPluginManager,
             IUrlRecordService urlRecordService,
             IWorkContext workContext,
-            VendorSettings vendorSettings) : base(aclService,
+            VendorSettings vendorSettings,
+            IEventPublisher eventPublisher) : base(aclService,
                 backInStockSubscriptionService,
                 categoryService,
                 copyProductService,
@@ -107,7 +109,8 @@ namespace Nop.Plugin.Tax.Avalara.Controllers
                 specificationAttributeService,
                 urlRecordService,
                 workContext,
-                vendorSettings)
+                vendorSettings,
+                eventPublisher)
         {
             _avalaraTaxManager = avalaraTaxManager;
             _localizationService = localizationService;
