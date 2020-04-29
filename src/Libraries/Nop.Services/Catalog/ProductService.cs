@@ -626,13 +626,20 @@ namespace Nop.Services.Catalog
         {
             filterableSpecificationAttributeOptionIds = new List<int>();
 
-            #region Extensions by QuanNH
+            #region Extensions by QuanNH // Porttomis Inc. - Updated to check for admin status.
+            var mappedUserType = _workContext.CurrentCustomer.MappedStoreUserType;
 
-            int storeIds = _storeMappingService.GetStoreIdByEntityId(_workContext.CurrentCustomer.Id, "Stores").FirstOrDefault();
-            if (storeIds != 0)
+            if (mappedUserType.ToLower() != "admin")
             {
-                storeId = storeIds;
+               int storeIds = _storeMappingService.GetStoreIdByEntityId(_workContext.CurrentCustomer.Id, "Stores").FirstOrDefault();
+               
+                if (storeIds != 0)
+                {
+                    storeId = storeIds;
+                }
             }
+
+
 
             #endregion
             //search by keyword
