@@ -629,7 +629,7 @@ namespace Nop.Services.Catalog
             #region Extensions by QuanNH // Porttomis Inc. - Updated to check for admin status.
             var mappedUserType = _workContext.CurrentCustomer.MappedStoreUserType;
 
-            if (mappedUserType.ToLower() != "admin")
+            if (mappedUserType.ToLower() != "admin" && storeId >= 1)
             {
                int storeIds = _storeMappingService.GetStoreIdByEntityId(_workContext.CurrentCustomer.Id, "Stores").FirstOrDefault();
                
@@ -689,7 +689,7 @@ namespace Nop.Services.Catalog
             var pStoreId = _dataProvider.GetInt32Parameter("StoreId", !_catalogSettings.IgnoreStoreLimitations ? storeId : 0);
 
             //Porttomis Inc.
-            if (_workContext.CurrentCustomer.MappedStoreUserType != null && _workContext.CurrentCustomer.MappedStoreUserType.ToLower() == "admin")
+            if (_workContext.CurrentCustomer.MappedStoreUserType != null && _workContext.CurrentCustomer.MappedStoreUserType.ToLower() == "admin" && storeId == 0)
             {
                 pStoreId = _dataProvider.GetInt32Parameter("StoreId", 0);
             }

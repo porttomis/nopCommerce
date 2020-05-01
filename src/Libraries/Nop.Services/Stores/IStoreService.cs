@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Nop.Core.Domain.Stores;
 
 namespace Nop.Services.Stores
@@ -20,6 +20,14 @@ namespace Nop.Services.Stores
         /// <param name="loadCacheableCopy">A value indicating whether to load a copy that could be cached (workaround until Entity Framework supports 2-level caching)</param>
         /// <returns>Stores</returns>
         IList<Store> GetAllStores(bool loadCacheableCopy = true);
+
+        /// <summary>
+        /// Gets all stores
+        /// </summary>
+        /// <param name="storeName">A value indicating whole, or partial, store name to search by</param>
+        /// <param name="loadCacheableCopy">A value indicating whether to load a copy that could be cached (workaround until Entity Framework supports 2-level caching)</param>
+        /// <returns>Stores</returns>
+        IList<Store> GetAllStoresbyName(string storeName, bool loadCacheableCopy = true);
 
         /// <summary>
         /// Gets a store 

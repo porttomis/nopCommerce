@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Nop.Core.Caching;
@@ -90,6 +90,44 @@ namespace Nop.Services.Stores
         }
 
         /// <summary>
+        /// Gets all stores
+        /// </summary>
+        /// <param name="storeName">A value indicating a whole, or part of, a store name to search</param>
+        /// <param name="loadCacheableCopy">A value indicating whether to load a copy that could be cached (workaround until Entity Framework supports 2-level caching)</param>
+        /// <returns>Stores</returns>
+        public virtual IList<Store> GetAllStoresbyName(string storeName, bool loadCacheableCopy = true)
+        {
+            IList<Store> LoadStoresFunc()
+            {
+                // var query = from s in _storeRepository.Table orderby s.DisplayOrder, s.Id select s; // Porttomis Inc.
+                //IQueryable<T> query = from s in _storeRepository.Table orderby s.Name, s.Id select s;
+                //query = query.Where(s => s.Name.Contains(storeName));
+                //return query.ToList();
+                //var query = from s in _storeRepository.Table select s;
+                var query = _storeRepository.Table.OrderBy(s => s.Name)
+                             .ThenBy(s => s.Id)
+                             .Where(s => s.Name.Contains(storeName));
+                return query.ToList();
+
+            }
+
+            if (loadCacheableCopy)
+            {
+                //cacheable copy
+                return _cacheManager.Get(NopStoreDefaults.StoresAllCacheKey, () =>
+                {
+                    var result = new List<Store>();
+                    foreach (var store in LoadStoresFunc())
+                        result.Add(new StoreForCaching(store));
+                    return result;
+                });
+            }
+
+            return LoadStoresFunc();
+        }
+
+
+        /// <summary>
         /// Gets a store 
         /// </summary>
         /// <param name="storeId">Store identifier</param>
@@ -118,6 +156,7 @@ namespace Nop.Services.Stores
                 return new StoreForCaching(store);
             });
         }
+
 
         /// <summary>
         /// Inserts a store

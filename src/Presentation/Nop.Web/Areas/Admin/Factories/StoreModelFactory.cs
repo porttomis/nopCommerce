@@ -72,6 +72,11 @@ namespace Nop.Web.Areas.Admin.Factories
             //get stores
             var stores = _storeService.GetAllStores(loadCacheableCopy: false).ToPagedList(searchModel);
 
+            if (searchModel.SearchStoreName != null)
+            {
+                stores = _storeService.GetAllStoresbyName(searchModel.SearchStoreName, loadCacheableCopy: false).ToPagedList(searchModel);
+            }
+
             //prepare list model
             var model = new StoreListModel().PrepareToGrid(searchModel, stores, () =>
             {

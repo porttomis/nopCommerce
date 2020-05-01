@@ -154,6 +154,9 @@ namespace Nop.Web.Areas.Admin.Controllers
             var storeModel = new StoreModel { ExternalID = model.ExternalStoreCode.ToString() };
             _eventPublisher.Publish(new EntityModelQueryEvent<StoreModel>(storeModel));
 
+            ModelState.Clear();
+            TryValidateModel(model);
+
             //prepare model
             model = _storeModelFactory.PrepareStoreModel(storeModel, null, true);
 
