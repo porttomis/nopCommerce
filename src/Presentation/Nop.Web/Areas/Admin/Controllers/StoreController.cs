@@ -151,14 +151,17 @@ namespace Nop.Web.Areas.Admin.Controllers
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageStores))
                 return AccessDeniedView();
 
-            var storeModel = new StoreModel { ExternalID = model.ExternalStoreCode.ToString() };
-            _eventPublisher.Publish(new EntityModelQueryEvent<StoreModel>(storeModel));
+            model.ExternalID = model.ExternalStoreCode.ToString();
+            _eventPublisher.Publish(new EntityModelQueryEvent<StoreModel>(model));
+
+            ModelState.Clear();
+            TryValidateModel(model);
 
             //prepare model
-            model = _storeModelFactory.PrepareStoreModel(storeModel, null, true);
+            model = _storeModelFactory.PrepareStoreModel(model, null, true);
 
             //if we got this far, something failed, redisplay form
-            return View("Create",model);
+            return View("Create", model);
         }
 
         public virtual IActionResult Edit(int id)
