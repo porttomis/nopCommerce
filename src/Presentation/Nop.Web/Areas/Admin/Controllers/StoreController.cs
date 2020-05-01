@@ -157,6 +157,9 @@ namespace Nop.Web.Areas.Admin.Controllers
             ModelState.Clear();
             TryValidateModel(model);
 
+            ModelState.Clear();
+            TryValidateModel(model);
+
             //prepare model
             model = _storeModelFactory.PrepareStoreModel(model, null, true);
 
