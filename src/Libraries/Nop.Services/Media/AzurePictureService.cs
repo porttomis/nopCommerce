@@ -13,6 +13,7 @@ using Nop.Core.Domain.Media;
 using Nop.Core.Infrastructure;
 using Nop.Data;
 using Nop.Services.Catalog;
+using Nop.Services.Common;
 using Nop.Services.Configuration;
 using Nop.Services.Events;
 using Nop.Services.Seo;
@@ -55,6 +56,8 @@ namespace Nop.Services.Media
             IStaticCacheManager cacheManager,
             IUrlRecordService urlRecordService,
             IWebHelper webHelper,
+            IGenericAttributeService genericAttributeService,
+            IProductAttributeService productAttributeService,
             MediaSettings mediaSettings,
             NopConfig config)
             : base(dataProvider,
@@ -70,6 +73,8 @@ namespace Nop.Services.Media
                   settingService,
                   urlRecordService,
                   webHelper,
+                  genericAttributeService,
+                  productAttributeService,
                   mediaSettings)
         {
             _cacheManager = cacheManager;

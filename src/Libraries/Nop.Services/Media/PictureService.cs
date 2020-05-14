@@ -11,6 +11,7 @@ using Nop.Core.Domain.Media;
 using Nop.Core.Infrastructure;
 using Nop.Data;
 using Nop.Services.Catalog;
+using Nop.Services.Common;
 using Nop.Services.Configuration;
 using Nop.Services.Events;
 using Nop.Services.Seo;
@@ -47,6 +48,8 @@ namespace Nop.Services.Media
         private readonly ISettingService _settingService;
         private readonly IUrlRecordService _urlRecordService;
         private readonly IWebHelper _webHelper;
+        private readonly IGenericAttributeService _genericAttributeService;
+        private readonly IProductAttributeService _productAttributeService;
         private readonly MediaSettings _mediaSettings;
 
         #endregion
@@ -66,6 +69,8 @@ namespace Nop.Services.Media
             ISettingService settingService,
             IUrlRecordService urlRecordService,
             IWebHelper webHelper,
+            IGenericAttributeService genericAttributeService,
+            IProductAttributeService productAttributeService,
             MediaSettings mediaSettings)
         {
             _dataProvider = dataProvider;
@@ -81,6 +86,8 @@ namespace Nop.Services.Media
             _settingService = settingService;
             _urlRecordService = urlRecordService;
             _webHelper = webHelper;
+            _genericAttributeService = genericAttributeService;
+            _productAttributeService = productAttributeService;
             _mediaSettings = mediaSettings;
         }
 
@@ -1015,6 +1022,13 @@ namespace Nop.Services.Media
                 .ToDictionary(p => p.PictureId, p => BitConverter.ToString(p.Hash).Replace("-", string.Empty));
         }
 
+        // Key for generic attribute service to find pictureId from chili templateId // Porttomis Inc.
+        // Entity is Product, because that is what we have when we need to get the pictire
+        private static string PictureIdKey(string id)
+        {
+            return $"ChiliView_pictureId_{id}";
+        }
+
         /// <summary>
         /// Get product picture (for shopping cart and order details pages)
         /// </summary>
@@ -1026,7 +1040,19 @@ namespace Nop.Services.Media
             if (product == null)
                 throw new ArgumentNullException(nameof(product));
 
-            //first, try to get product attribute combination picture
+            //First, check if it is a template that has a picture  // Porttomis Inc.
+            //Get value of template id attribute in shopping cart item...
+            var mapping = _productAttributeService
+                .GetProductAttributeMappingsByProductId(product.Id)
+                .FirstOrDefault(pam => pam.ProductAttribute.Name == "ChiliDocID");
+            var templateId = _productAttributeParser.ParseValues(attributesXml, mapping.Id).FirstOrDefault();
+            var pictureIdKey = PictureIdKey(templateId);
+            var pictureId = _genericAttributeService.GetAttribute<int>(product, pictureIdKey);
+            var templatePicture = GetPictureById(pictureId);
+            if (templatePicture != null)
+                return templatePicture;
+
+            //then, try to get product attribute combination picture
             var combination = _productAttributeParser.FindProductAttributeCombination(product, attributesXml);
             var combinationPicture = GetPictureById(combination?.PictureId ?? 0);
             if (combinationPicture != null)
