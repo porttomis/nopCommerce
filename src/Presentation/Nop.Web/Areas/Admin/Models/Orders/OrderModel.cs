@@ -5,6 +5,7 @@ using Nop.Core.Domain.Tax;
 using Nop.Web.Areas.Admin.Models.Common;
 using Nop.Web.Framework.Models;
 using Nop.Web.Framework.Mvc.ModelBinding;
+using Org.BouncyCastle.Bcpg;
 
 namespace Nop.Web.Areas.Admin.Models.Orders
 {
@@ -64,6 +65,10 @@ namespace Nop.Web.Areas.Admin.Models.Orders
         public int AffiliateId { get; set; }
         [NopResourceDisplayName("Admin.Orders.Fields.Affiliate")]
         public string AffiliateName { get; set; }
+
+        //Porttomis Inc. Has Products that require approval
+        [NopResourceDisplayName("Admin.Orders.Fields.OderItemRequiresApproval")]
+        public bool OderItemRequiresApproval { get; set; }
 
         //Used discounts
         [NopResourceDisplayName("Admin.Orders.Fields.UsedDiscounts")]

@@ -556,10 +556,17 @@ namespace Nop.Web.Factories
         public virtual TopMenuModel PrepareTopMenuModel()
         {
             var cachedCategoriesModel = new List<CategorySimpleModel>();
-            //categories
-            if (!_catalogSettings.UseAjaxLoadMenu)
-                cachedCategoriesModel = PrepareCategorySimpleModels();
 
+
+            //categories // Porttomis Inc. Updated to validate if user is authenticated before showing categories
+            var isAuthenticated = Nop.Core.Infrastructure.EngineContext.Current.Resolve<Nop.Core.IWorkContext>().CurrentCustomer.IsRegistered();
+
+            if (isAuthenticated)
+            {
+
+                if (!_catalogSettings.UseAjaxLoadMenu)
+                    cachedCategoriesModel = PrepareCategorySimpleModels();
+            }
             //top menu topics
             var topicCacheKey = string.Format(NopModelCacheDefaults.TopicTopMenuModelKey,
                 _workContext.WorkingLanguage.Id,
@@ -654,6 +661,7 @@ namespace Nop.Web.Factories
         /// <returns>List of category (simple) models</returns>
         public virtual List<CategorySimpleModel> PrepareCategorySimpleModels()
         {
+
             //load and cache them
             var cacheKey = string.Format(NopModelCacheDefaults.CategoryAllModelKey,
                 _workContext.WorkingLanguage.Id,

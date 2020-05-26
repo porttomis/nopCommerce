@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Microsoft.WindowsAzure.Storage.Blob;
 using Nop.Core;
 using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Common;
@@ -751,8 +752,15 @@ namespace Nop.Services.Orders
         protected virtual Order SaveOrderDetails(ProcessPaymentRequest processPaymentRequest,
             ProcessPaymentResult processPaymentResult, PlaceOrderContainer details)
         {
+            // Porttomis Inc. Check to see if Product in cart requires approval
+            var query = from a in details.Cart
+                        where a.Product.RequiresApproval = true
+                        select a;
+
+            
             var order = new Order
             {
+               
                 StoreId = processPaymentRequest.StoreId,
                 OrderGuid = processPaymentRequest.OrderGuid,
                 CustomerId = details.Customer.Id,
