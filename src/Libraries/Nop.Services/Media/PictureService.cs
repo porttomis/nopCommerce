@@ -1045,7 +1045,8 @@ namespace Nop.Services.Media
             var mapping = _productAttributeService
                 .GetProductAttributeMappingsByProductId(product.Id)
                 .FirstOrDefault(pam => pam.ProductAttribute.Name == "ChiliDocID");
-            var templateId = _productAttributeParser.ParseValues(attributesXml, mapping.Id).FirstOrDefault();
+            var mappingId = mapping == null ? 0 : mapping.Id;
+            var templateId = _productAttributeParser.ParseValues(attributesXml, mappingId).FirstOrDefault();
             var pictureIdKey = PictureIdKey(templateId);
             var pictureId = _genericAttributeService.GetAttribute<int>(product, pictureIdKey);
             var templatePicture = GetPictureById(pictureId);
