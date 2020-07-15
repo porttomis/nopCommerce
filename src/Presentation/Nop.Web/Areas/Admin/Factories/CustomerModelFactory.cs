@@ -574,6 +574,23 @@ namespace Nop.Web.Areas.Admin.Factories
             searchModel.CompanyEnabled = _customerSettings.CompanyEnabled;
             searchModel.PhoneEnabled = _customerSettings.PhoneEnabled;
             searchModel.ZipPostalCodeEnabled = _customerSettings.ZipPostalCodeEnabled;
+            searchModel.SearchStoreId = _customerSettings.SearchStoreId;
+
+            var allStores = _storeService.GetAllStores(false); //Porttomis Inc. Change from true to false
+            if (allStores.Count <= 0)
+            {
+                allStores = _storeService.GetAllStores();
+                searchModel.AvailableStores.Add(new SelectListItem() { Text = _localizationService.GetResource("Admin.Common.All"), Value = "0" });
+            }
+            
+            // Porttomis Inc. - Need to add the initial default value of All/0
+            searchModel.AvailableStores.Add(new SelectListItem() { Text = _localizationService.GetResource("Admin.Common.All"), Value = "0" });
+
+            foreach (var s in allStores)
+                searchModel.AvailableStores.Add(new SelectListItem() { Text = s.Name, Value = s.Id.ToString() });
+
+
+
 
             //search registered customers by default
             var registeredRole = _customerService.GetCustomerRoleBySystemName(NopCustomerDefaults.RegisteredRoleName);
@@ -615,7 +632,9 @@ namespace Nop.Web.Areas.Admin.Factories
                 phone: searchModel.SearchPhone,
                 zipPostalCode: searchModel.SearchZipPostalCode,
                 ipAddress: searchModel.SearchIpAddress,
-                pageIndex: searchModel.Page - 1, pageSize: searchModel.PageSize);
+                pageIndex: searchModel.Page - 1, 
+                pageSize: searchModel.PageSize, 
+                SearchStoreId: searchModel.SearchStoreId);
 
             //prepare list model
             var model = new CustomerListModel().PrepareToGrid(searchModel, customers, () =>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Xml;
+using Microsoft.IdentityModel.Xml;
 using Nop.Core;
 using Nop.Core.Caching;
 using Nop.Core.Data;
@@ -106,20 +107,21 @@ namespace Nop.Services.Customers
         /// <param name="pageIndex">Page index</param>
         /// <param name="pageSize">Page size</param>
         /// <param name="getOnlyTotalCount">A value in indicating whether you want to load only total number of records. Set to "true" if you don't want to load data from database</param>
+        /// <param name="SearchStoreId">A value in indicating the store to search by</param>
         /// <returns>Customers</returns>
         public virtual IPagedList<Customer> GetAllCustomers(DateTime? createdFromUtc = null, DateTime? createdToUtc = null,
             int affiliateId = 0, int vendorId = 0, int[] customerRoleIds = null,
             string email = null, string username = null, string firstName = null, string lastName = null,
             int dayOfBirth = 0, int monthOfBirth = 0,
             string company = null, string phone = null, string zipPostalCode = null, string ipAddress = null,
-            int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false)
+            int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false, int SearchStoreId = 0)
         {
             var query = _customerRepository.Table;
             
             #region Extensions by QuanNH
 
             var _storeMappingService = Nop.Core.Infrastructure.EngineContext.Current.Resolve<Nop.Services.Stores.IStoreMappingService>();
-            var storeMappingRepository = Nop.Core.Infrastructure.EngineContext.Current.Resolve<IRepository<Nop.Core.Domain.Stores.StoreMapping>>();
+            var storeMappingRepository = Nop.Core.Infrastructure.EngineContext.Current.Resolve<IRepository<Nop.Core.Domain.Stores.Store>>();
             int storeId = _storeMappingService.CurrentStore();
 
             //Porttomis Inc.
@@ -130,20 +132,31 @@ namespace Nop.Services.Customers
                // Porttomis Inc.
                 if (mappedstoreusertype.ToLower() == "admin")
                 {
-
-                    query = from c in query
-                            join sm in storeMappingRepository.Table
-                            on new { c1 = c.Id, c2 = "Stores" } equals new { c1 = sm.EntityId, c2 = sm.EntityName } into c_sm
-                            from sm in c_sm.DefaultIfEmpty()
-                            select c;
+                    if (SearchStoreId > 0)
+                    {
+                        query = from c in query
+                                join sm in storeMappingRepository.Table
+                                on new { c1 = c.MappedStoreID} equals new { c1 = sm.Id} into c_sm
+                                from sm in c_sm.DefaultIfEmpty()
+                                where sm.Id == SearchStoreId
+                                select c;
+                    }
+                    else
+                    { 
+                        query = from c in query
+                                join sm in storeMappingRepository.Table
+                                on new { c1 = c.Id} equals new { c1 = sm.Id} into c_sm
+                                from sm in c_sm.DefaultIfEmpty()
+                                select c;
+                    }
                 }
                 else
                 {
                     query = from c in query
                             join sm in storeMappingRepository.Table
-                            on new { c1 = c.Id, c2 = "Stores" } equals new { c1 = sm.EntityId, c2 = sm.EntityName } into c_sm
+                            on new { c1 = c.MappedStoreID, c2 = c.MappedStoreUserType.ToLower() } equals new { c1 = sm.Id, c2 = "stores" } into c_sm
                             from sm in c_sm.DefaultIfEmpty()
-                            where storeId == sm.StoreId
+                            where storeId == sm.Id
                             select c;
 
                 }

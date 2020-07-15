@@ -562,19 +562,25 @@ namespace Nop.Core.Domain.Catalog
 
         /// <summary>
         /// //Porttomis Inc.
-        /// Gets or sets the date and time of product update
+        /// Gets or sets the ordering of this product requires approval 
+        /// </summary>
+        public bool RequiresApproval { get; set; }
+
+        /// <summary>
+        /// //Porttomis Inc.
+        /// Gets or sets the external editor workspace ID
         /// </summary>
         public string Editor_WorkSpace { get; set; }
 
         /// <summary>
         /// //Porttomis Inc.
-        /// Gets or sets the date and time of product update
+        /// Gets or sets  the external editor View Preference ID
         /// </summary>
         public string Editor_ViewPrefs { get; set; }
 
         /// <summary>
         /// //Porttomis Inc.
-        /// Gets or sets the date and time of product update
+        /// Gets or sets  the external editor View Constraints ID
         /// </summary>
         public string Editor_ViewConstraints { get; set; }
 

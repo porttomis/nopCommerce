@@ -108,6 +108,9 @@ namespace Nop.Web.Areas.Admin.Models.Catalog
         [NopResourceDisplayName("Admin.Catalog.Products.Fields.AdminComment")]
         public string AdminComment { get; set; }
 
+        [NopResourceDisplayName("Admin.Catalog.Products.Fields.RequiresApproval")]
+        public bool RequiresApproval { get; set; }
+
         [NopResourceDisplayName("Admin.Catalog.Products.Fields.Editor_WorkSpace")]
         public string Editor_WorkSpace { get; set; }
 

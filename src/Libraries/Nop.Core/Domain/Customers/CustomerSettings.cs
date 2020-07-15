@@ -18,6 +18,12 @@ namespace Nop.Core.Domain.Customers
         public string MappedStoreUserType { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating Mapped Store User Type //Porttomis Inc
+        /// </summary>
+        public int SearchStoreId { get; set; }
+
+
+        /// <summary>
         /// Gets or sets a value indicating whether usernames are used instead of emails
         /// </summary>
         public bool UsernamesEnabled { get; set; }

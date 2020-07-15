@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Nop.Core.Domain.Stores;
 using Nop.Web.Factories;
 using Nop.Web.Framework.Components;
 
@@ -16,6 +17,8 @@ namespace Nop.Web.Components
 
         public IViewComponentResult Invoke()
         {
+
+
             var model = _catalogModelFactory.PrepareHomepageCategoryModels();
             if (!model.Any())
                 return Content("");

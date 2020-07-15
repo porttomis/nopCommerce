@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Microsoft.WindowsAzure.Storage.Blob;
 using Nop.Core;
 using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Common;
@@ -751,8 +752,15 @@ namespace Nop.Services.Orders
         protected virtual Order SaveOrderDetails(ProcessPaymentRequest processPaymentRequest,
             ProcessPaymentResult processPaymentResult, PlaceOrderContainer details)
         {
+            // Porttomis Inc. Check to see if Product in cart requires approval
+            var query = from a in details.Cart
+                        where a.Product.RequiresApproval = true
+                        select a;
+            int productapprovals = query.Count(); //Porttomis Inc. Set number of products requiring approval
+            
             var order = new Order
             {
+               
                 StoreId = processPaymentRequest.StoreId,
                 OrderGuid = processPaymentRequest.OrderGuid,
                 CustomerId = details.Customer.Id,
@@ -778,7 +786,7 @@ namespace Nop.Services.Orders
                 CurrencyRate = details.CustomerCurrencyRate,
                 AffiliateId = details.AffiliateId,
                 OrderStatus = OrderStatus.Pending,
-                OrderApprovalStatusId = _storeContext.CurrentStore.OrderApprovals ? (int)OrderApprovalStatus.Pending : (int)OrderApprovalStatus.Approved, 
+                OrderApprovalStatusId = _storeContext.CurrentStore.OrderApprovals || productapprovals > 0 ? (int)OrderApprovalStatus.Pending: (int)OrderApprovalStatus.Approved, 
                 AllowStoringCreditCardNumber = processPaymentResult.AllowStoringCreditCardNumber,
                 CardType = processPaymentResult.AllowStoringCreditCardNumber ? _encryptionService.EncryptText(processPaymentRequest.CreditCardType) : string.Empty,
                 CardName = processPaymentResult.AllowStoringCreditCardNumber ? _encryptionService.EncryptText(processPaymentRequest.CreditCardName) : string.Empty,

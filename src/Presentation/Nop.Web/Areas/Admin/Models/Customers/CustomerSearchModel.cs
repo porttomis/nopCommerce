@@ -16,6 +16,7 @@ namespace Nop.Web.Areas.Admin.Models.Customers
         {
             SelectedCustomerRoleIds = new List<int>();
             AvailableCustomerRoles = new List<SelectListItem>();
+            AvailableStores = new List<SelectListItem>();
         }
 
         #endregion
@@ -26,6 +27,14 @@ namespace Nop.Web.Areas.Admin.Models.Customers
         public IList<int> SelectedCustomerRoleIds { get; set; }
 
         public IList<SelectListItem> AvailableCustomerRoles { get; set; }
+
+        public IList<SelectListItem> AvailableStores { get; set; }
+
+        [NopResourceDisplayName("Admin.Customers.Customers.List.SearchStoreId")]
+        public int SearchStoreId { get; set; }
+
+
+        public string MappedStoreUserType { get; set; }
 
         [NopResourceDisplayName("Admin.Customers.Customers.List.SearchEmail")]
         public string SearchEmail { get; set; }
