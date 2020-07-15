@@ -756,7 +756,7 @@ namespace Nop.Services.Orders
             var query = from a in details.Cart
                         where a.Product.RequiresApproval = true
                         select a;
-
+            int productapprovals = query.Count(); //Porttomis Inc. Set number of products requiring approval
             
             var order = new Order
             {
@@ -786,7 +786,7 @@ namespace Nop.Services.Orders
                 CurrencyRate = details.CustomerCurrencyRate,
                 AffiliateId = details.AffiliateId,
                 OrderStatus = OrderStatus.Pending,
-                OrderApprovalStatusId = _storeContext.CurrentStore.OrderApprovals ? (int)OrderApprovalStatus.Pending : (int)OrderApprovalStatus.Approved, 
+                OrderApprovalStatusId = _storeContext.CurrentStore.OrderApprovals || productapprovals > 0 ? (int)OrderApprovalStatus.Pending: (int)OrderApprovalStatus.Approved, 
                 AllowStoringCreditCardNumber = processPaymentResult.AllowStoringCreditCardNumber,
                 CardType = processPaymentResult.AllowStoringCreditCardNumber ? _encryptionService.EncryptText(processPaymentRequest.CreditCardType) : string.Empty,
                 CardName = processPaymentResult.AllowStoringCreditCardNumber ? _encryptionService.EncryptText(processPaymentRequest.CreditCardName) : string.Empty,

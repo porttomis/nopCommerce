@@ -222,6 +222,12 @@
                                             });
                                             </script>
                                         </div>
+                                        <div class="col-md-4">
+                                            <nop-label asp-for="SearchStoreId" />
+                                        </div>
+                                        <div class="col-md-8">
+                                            <nop-select asp-for="SearchStoreId" asp-items="Model.AvailableStores" />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -260,6 +266,7 @@
                                     new FilterParameter(nameof(Model.SearchPhone)),
                                     new FilterParameter(nameof(Model.SearchZipPostalCode)),
                                     new FilterParameter(nameof(Model.SearchIpAddress)),
+                                    new FilterParameter(nameof(Model.SearchStoreId)),
                                 }
                             };
 
