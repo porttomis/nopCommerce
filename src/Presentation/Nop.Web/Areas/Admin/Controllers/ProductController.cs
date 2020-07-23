@@ -1126,6 +1126,24 @@ namespace Nop.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        public virtual IActionResult ProductImageSync(ICollection<int> selectedIds)
+        {
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
+                return AccessDeniedView();
+
+            if (selectedIds != null)
+            {
+                foreach (var productId in selectedIds)
+                {
+                    var productPicture = new ProductPicture { ProductId = productId };
+                    _eventPublisher.Publish(new EntityQueryEvent<ProductPicture>(productPicture));
+                }
+            }
+
+            return Json(new { Result = true });
+        }
+
+        [HttpPost]
         public virtual IActionResult CopyProduct(ProductModel model)
         {
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
