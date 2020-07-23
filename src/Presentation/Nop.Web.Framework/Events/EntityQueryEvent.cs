@@ -1,21 +1,21 @@
-﻿using Nop.Web.Framework.Models;
+﻿using Nop.Core;
 
 namespace Nop.Web.Framework.Events
 {
-    public class EntityModelQueryEvent<T> where T : BaseNopEntityModel
+    public class EntityQueryEvent<T> where T : BaseEntity
     {
         /// <summary>
         /// Ctor
         /// </summary>
         /// <param name="entity">Entity</param>
-        public EntityModelQueryEvent(T model)
+        public EntityQueryEvent(T entity)
         {
-            Model = model;
+            Entity = entity;
         }
 
         /// <summary>
         /// Entity
         /// </summary>
-        public T Model { get; }
+        public T Entity { get; }
     }
 }
