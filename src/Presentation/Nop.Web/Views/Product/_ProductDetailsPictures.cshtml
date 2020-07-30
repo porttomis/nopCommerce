@@ -5,7 +5,7 @@
 }
 <div class="gallery">
     @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.ProductDetailsBeforePictures, additionalData = Model })
-    <div class="picture">
+    <div class="picture"  style="border-style:ridge;border-width:1px;padding:5px">
         @if (Model.DefaultPictureZoomEnabled && Model.PictureModels.Count == 1)
         {
             <a href="@Model.DefaultPictureModel.FullSizeImageUrl" title="@Model.DefaultPictureModel.Title" id="main-product-img-lightbox-anchor-@Model.Id">

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Nop.Core;
 using Nop.Core.Domain.Catalog;
@@ -95,6 +95,7 @@ namespace Nop.Services.Catalog
         /// <param name="searchManufacturerPartNumber">A value indicating whether to search by a specified "keyword" in manufacturer part number</param>
         /// <param name="searchSku">A value indicating whether to search by a specified "keyword" in product SKU</param>
         /// <param name="searchProductTags">A value indicating whether to search by a specified "keyword" in product tags</param>
+        /// <param name="searchIsExternalDocs">A value indicating whether to search products that use externally edit document (AKA Chili or XMPie)</param> //Porttomis Inc.
         /// <param name="languageId">Language identifier (search for text searching)</param>
         /// <param name="filteredSpecs">Filtered product specification identifiers</param>
         /// <param name="orderBy">Order by</param>
@@ -125,6 +126,7 @@ namespace Nop.Services.Catalog
             bool searchManufacturerPartNumber = true,
             bool searchSku = true,
             bool searchProductTags = false,
+            bool searchIsExternalDocs = false,
             int languageId = 0,
             IList<int> filteredSpecs = null,
             ProductSortingEnum orderBy = ProductSortingEnum.Position,
@@ -155,6 +157,7 @@ namespace Nop.Services.Catalog
         /// <param name="searchManufacturerPartNumber">A value indicating whether to search by a specified "keyword" in manufacturer part number</param>
         /// <param name="searchSku">A value indicating whether to search by a specified "keyword" in product SKU</param>
         /// <param name="searchProductTags">A value indicating whether to search by a specified "keyword" in product tags</param>
+        /// <param name="searchIsExternalDocs">A value indicating whether to search products that use externally edit document (AKA Chili or XMPie)</param> //Porttomis Inc.
         /// <param name="languageId">Language identifier (search for text searching)</param>
         /// <param name="filteredSpecs">Filtered product specification identifiers</param>
         /// <param name="orderBy">Order by</param>
@@ -187,6 +190,7 @@ namespace Nop.Services.Catalog
             bool searchManufacturerPartNumber = true,
             bool searchSku = true,
             bool searchProductTags = false,
+            bool searchIsExternalDocs = false,
             int languageId = 0,
             IList<int> filteredSpecs = null,
             ProductSortingEnum orderBy = ProductSortingEnum.Position,

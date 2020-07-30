@@ -517,6 +517,7 @@ namespace Nop.Services.Catalog
         /// <param name="searchManufacturerPartNumber">A value indicating whether to search by a specified "keyword" in manufacturer part number</param>
         /// <param name="searchSku">A value indicating whether to search by a specified "keyword" in product SKU</param>
         /// <param name="searchProductTags">A value indicating whether to search by a specified "keyword" in product tags</param>
+        /// <param name="searchIsExternalDocs">A value indicating whether to search products that use externally edit document (AKA Chili or XMPie)</param>
         /// <param name="languageId">Language identifier (search for text searching)</param>
         /// <param name="filteredSpecs">Filtered product specification identifiers</param>
         /// <param name="orderBy">Order by</param>
@@ -547,6 +548,7 @@ namespace Nop.Services.Catalog
             bool searchManufacturerPartNumber = true,
             bool searchSku = true,
             bool searchProductTags = false,
+            bool searchIsExternalDocs = false,
             int languageId = 0,
             IList<int> filteredSpecs = null,
             ProductSortingEnum orderBy = ProductSortingEnum.Position,
@@ -558,7 +560,7 @@ namespace Nop.Services.Catalog
                 storeId, vendorId, warehouseId,
                 productType, visibleIndividuallyOnly, markedAsNewOnly, featuredProducts,
                 priceMin, priceMax, productTagId, keywords, searchDescriptions, searchManufacturerPartNumber, searchSku,
-                searchProductTags, languageId, filteredSpecs,
+                searchProductTags, searchIsExternalDocs, languageId, filteredSpecs,
                 orderBy, showHidden, overridePublished);
         }
 
@@ -586,6 +588,7 @@ namespace Nop.Services.Catalog
         /// <param name="searchManufacturerPartNumber">A value indicating whether to search by a specified "keyword" in manufacturer part number</param>
         /// <param name="searchSku">A value indicating whether to search by a specified "keyword" in product SKU</param>
         /// <param name="searchProductTags">A value indicating whether to search by a specified "keyword" in product tags</param>
+        /// <param name="searchIsExternalDocs">A value indicating whether to search products that use externally edit document (AKA Chili or XMPie)</param>
         /// <param name="languageId">Language identifier (search for text searching)</param>
         /// <param name="filteredSpecs">Filtered product specification identifiers</param>
         /// <param name="orderBy">Order by</param>
@@ -618,6 +621,7 @@ namespace Nop.Services.Catalog
             bool searchManufacturerPartNumber = true,
             bool searchSku = true,
             bool searchProductTags = false,
+            bool searchIsExternalDocs = false,
             int languageId = 0,
             IList<int> filteredSpecs = null,
             ProductSortingEnum orderBy = ProductSortingEnum.Position,
@@ -708,6 +712,7 @@ namespace Nop.Services.Catalog
             var pSearchManufacturerPartNumber = _dataProvider.GetBooleanParameter("SearchManufacturerPartNumber", searchManufacturerPartNumber);
             var pSearchSku = _dataProvider.GetBooleanParameter("SearchSku", searchSku);
             var pSearchProductTags = _dataProvider.GetBooleanParameter("SearchProductTags", searchProductTags);
+            var pSearchIsExternalDocs = _dataProvider.GetBooleanParameter("SearchIsExternalDocs", searchIsExternalDocs);
             var pUseFullTextSearch = _dataProvider.GetBooleanParameter("UseFullTextSearch", _commonSettings.UseFullTextSearch);
             var pFullTextMode = _dataProvider.GetInt32Parameter("FullTextMode", (int)_commonSettings.FullTextMode);
             var pFilteredSpecs = _dataProvider.GetStringParameter("FilteredSpecs", commaSeparatedSpecIds);
@@ -744,6 +749,7 @@ namespace Nop.Services.Catalog
                 pSearchManufacturerPartNumber,
                 pSearchSku,
                 pSearchProductTags,
+                pSearchIsExternalDocs,
                 pUseFullTextSearch,
                 pFullTextMode,
                 pFilteredSpecs,
