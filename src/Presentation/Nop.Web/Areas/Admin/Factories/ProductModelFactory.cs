@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore.Query.Expressions;
 using Nop.Core;
 using Nop.Core.Caching;
 using Nop.Core.Domain.Catalog;
@@ -690,6 +691,23 @@ namespace Nop.Web.Areas.Admin.Factories
                 Text = _localizationService.GetResource("Admin.Catalog.Products.List.SearchPublished.UnpublishedOnly")
             });
 
+            ////prepare "external documents" filter (0 - all; 1 - external only; 2 - internal only)
+            //searchModel.AvailableExternalDocOptions.Add(new SelectListItem
+            //{
+            //    Value = "0",
+            //    Text = _localizationService.GetResource("Admin.Catalog.Products.List.SearchExternalDocuments.All")
+            //});
+            //searchModel.AvailableExternalDocOptions.Add(new SelectListItem
+            //{
+            //    Value = "1",
+            //    Text = _localizationService.GetResource("Admin.Catalog.Products.List.SearchExternalDocuments.ExternalOnly")
+            //});
+            //searchModel.AvailableExternalDocOptions.Add(new SelectListItem
+            //{
+            //    Value = "2",
+            //    Text = _localizationService.GetResource("Admin.Catalog.Products.List.SearchPublished.InternalOnly")
+            //});
+
             //prepare grid
             searchModel.SetGridPageSize();
 
@@ -726,6 +744,7 @@ namespace Nop.Web.Areas.Admin.Factories
                 warehouseId: searchModel.SearchWarehouseId,
                 productType: searchModel.SearchProductTypeId > 0 ? (ProductType?)searchModel.SearchProductTypeId : null,
                 keywords: searchModel.SearchProductName,
+                searchIsExternalDocs: searchModel.SearchIsExternalDoc, // Porttomis Inc.
                 pageIndex: searchModel.Page - 1, pageSize: searchModel.PageSize,
                 overridePublished: overridePublished);
 

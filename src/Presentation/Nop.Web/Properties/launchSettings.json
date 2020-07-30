@@ -21,7 +21,7 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://NSWBUSCHA:15537"
+      "applicationUrl": "http://portal1.rpco.com.au:15537"
     }
   }
 }

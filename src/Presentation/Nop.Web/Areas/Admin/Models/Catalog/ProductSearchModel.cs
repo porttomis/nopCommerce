@@ -63,6 +63,9 @@ namespace Nop.Web.Areas.Admin.Models.Catalog
 
         public bool HideStoresList { get; set; }
 
+        [NopResourceDisplayName("Admin.Catalog.Products.List.SearchExternalDocs")]
+        public bool SearchIsExternalDoc { get; set; }
+
         public IList<SelectListItem> AvailableCategories { get; set; }
 
         public IList<SelectListItem> AvailableManufacturers { get; set; }
@@ -77,6 +80,7 @@ namespace Nop.Web.Areas.Admin.Models.Catalog
 
         public IList<SelectListItem> AvailablePublishedOptions { get; set; }
 
+        public IList<SelectListItem> AvailableExternalDocOptions { get; set; }
         #endregion
     }
 }
