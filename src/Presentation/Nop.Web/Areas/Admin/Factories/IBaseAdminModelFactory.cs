@@ -24,6 +24,15 @@ namespace Nop.Web.Areas.Admin.Factories
         /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
         void PrepareOrderStatuses(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null);
 
+        // Porttomis Inc.
+        /// <summary>
+        /// Prepare available order statuses
+        /// </summary>
+        /// <param name="items">Order status items</param>
+        /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
+        /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
+        void PrepareOrderApprovalStatuses(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null);
+
         /// <summary>
         /// Prepare available payment statuses
         /// </summary>

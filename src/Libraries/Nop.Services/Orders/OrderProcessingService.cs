@@ -2435,8 +2435,9 @@ namespace Nop.Services.Orders
 
             if (order.OrderStatus == OrderStatus.Cancelled)
                 return false;
-
-            if (order.PaymentStatus == PaymentStatus.Paid ||
+            
+            // Porttomis Inc. Check to make sure the item is Paid and not a Purchase order, Purchase Orders can be sent to Tharstern Unpaid. 
+            if ((order.PaymentStatus != PaymentStatus.Paid && order.PaymentMethodSystemName != "Payments.PurchaseOrder") ||
                 order.PaymentStatus == PaymentStatus.Refunded ||
                 order.PaymentStatus == PaymentStatus.Voided)
                 return false;

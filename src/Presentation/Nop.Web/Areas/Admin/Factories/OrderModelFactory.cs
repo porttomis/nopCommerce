@@ -814,7 +814,7 @@ namespace Nop.Web.Areas.Admin.Factories
             searchModel.IsLoggedInAsVendor = _workContext.CurrentVendor != null;
             searchModel.BillingPhoneEnabled = _addressSettings.PhoneEnabled;
 
-            //prepare available order, payment and shipping statuses
+            //prepare available order, approval, payment and shipping statuses
             _baseAdminModelFactory.PrepareOrderStatuses(searchModel.AvailableOrderStatuses);
             if (searchModel.AvailableOrderStatuses.Any())
             {
@@ -826,6 +826,20 @@ namespace Nop.Web.Areas.Admin.Factories
                 }
                 else
                     searchModel.AvailableOrderStatuses.FirstOrDefault().Selected = true;
+            }
+
+            // Porttomis Inc.
+            _baseAdminModelFactory.PrepareOrderApprovalStatuses(searchModel.AvailableOrderApprovalStatuses);
+            if (searchModel.AvailableOrderApprovalStatuses.Any())
+            {
+                if (searchModel.OrderApprovalStatusIds?.Any() ?? false)
+                {
+                    var ids = searchModel.OrderApprovalStatusIds.Select(id => id.ToString());
+                    searchModel.AvailableOrderApprovalStatuses.Where(statusItem => ids.Contains(statusItem.Value)).ToList()
+                        .ForEach(statusItem => statusItem.Selected = true);
+                }
+                else
+                    searchModel.AvailableOrderApprovalStatuses.FirstOrDefault().Selected = true;
             }
 
             _baseAdminModelFactory.PreparePaymentStatuses(searchModel.AvailablePaymentStatuses);
@@ -893,6 +907,7 @@ namespace Nop.Web.Areas.Admin.Factories
 
             //get parameters to filter orders
             var orderStatusIds = (searchModel.OrderStatusIds?.Contains(0) ?? true) ? null : searchModel.OrderStatusIds.ToList();
+            var orderApprovalStatusIds = (searchModel.OrderApprovalStatusIds?.Contains(0) ?? true) ? null : searchModel.OrderApprovalStatusIds.ToList();
             var paymentStatusIds = (searchModel.PaymentStatusIds?.Contains(0) ?? true) ? null : searchModel.PaymentStatusIds.ToList();
             var shippingStatusIds = (searchModel.ShippingStatusIds?.Contains(0) ?? true) ? null : searchModel.ShippingStatusIds.ToList();
             if (_workContext.CurrentVendor != null)
@@ -914,6 +929,7 @@ namespace Nop.Web.Areas.Admin.Factories
                 createdFromUtc: startDateValue,
                 createdToUtc: endDateValue,
                 osIds: orderStatusIds,
+                oasIds: orderApprovalStatusIds,
                 psIds: paymentStatusIds,
                 ssIds: shippingStatusIds,
                 billingPhone: searchModel.BillingPhone,
@@ -934,6 +950,7 @@ namespace Nop.Web.Areas.Admin.Factories
                     {
                         Id = order.Id,
                         OrderStatusId = order.OrderStatusId,
+                        OrderApprovalStatusId = order.OrderApprovalStatusId,
                         PaymentStatusId = order.PaymentStatusId,
                         ShippingStatusId = order.ShippingStatusId,
                         CustomerEmail = order.BillingAddress.Email,
@@ -948,6 +965,7 @@ namespace Nop.Web.Areas.Admin.Factories
                     //fill in additional values (not existing in the entity)
                     orderModel.StoreName = _storeService.GetStoreById(order.StoreId)?.Name ?? "Deleted";
                     orderModel.OrderStatus = _localizationService.GetLocalizedEnum(order.OrderStatus);
+                    orderModel.OrderApprovalStatus = _localizationService.GetLocalizedEnum(order.OrderApprovalStatus);
                     orderModel.PaymentStatus = _localizationService.GetLocalizedEnum(order.PaymentStatus);
                     orderModel.ShippingStatus = _localizationService.GetLocalizedEnum(order.ShippingStatus);
                     orderModel.OrderTotal = _priceFormatter.FormatPrice(order.OrderTotal, true, false);
