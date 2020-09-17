@@ -166,6 +166,14 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="col-md-4">
+                                            <nop-label asp-for="OrderApprovalStatusIds" />
+                                        </div>
+                                        <div class="col-md-8">
+                                            <nop-select asp-for="OrderApprovalStatusIds" asp-items="Model.AvailableOrderApprovalStatuses" asp-multiple="true" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-4">
                                             <nop-label asp-for="PaymentStatusIds" />
                                         </div>
                                         <div class="col-md-8">
@@ -295,6 +303,7 @@
                                                     new FilterParameter(nameof(Model.StartDate)),
                                                     new FilterParameter(nameof(Model.EndDate)),
                                                     new FilterParameter(nameof(Model.OrderStatusIds)),
+                                                    new FilterParameter(nameof(Model.OrderApprovalStatusIds)),
                                                     new FilterParameter(nameof(Model.PaymentStatusIds)),
                                                     new FilterParameter(nameof(Model.ShippingStatusIds)),
                                                     new FilterParameter(nameof(Model.StoreId)),
@@ -333,6 +342,14 @@
                                     Width = "100",
                                     Render = new RenderCustom("renderColumnOrderStatus")
                                 });
+
+                                gridModel.ColumnCollection.Add(new ColumnProperty(nameof(OrderModel.OrderApprovalStatus))
+                                {
+                                    Title = T("Admin.Orders.Fields.OrderApprovalStatus").Text,
+                                    Width = "100",
+                                    Render = new RenderCustom("renderColumnOrderApprovalStatus")
+                                });
+
                             }
                             gridModel.ColumnCollection.Add(new ColumnProperty(nameof(OrderModel.PaymentStatus))
                             {
@@ -406,6 +423,22 @@
                                 }
                                 return '<span class="grid-report-item ' + color + '">' + data + '</span >';
                             }
+                            function renderColumnOrderApprovalStatus(data, type, row, meta) {
+                                var color;
+                                switch (row.OrderApprovalStatusId) {
+                                    case 10:
+                                        color = 'yellow';
+                                        break;
+                                    case 20:
+                                        color = 'blue';
+                                        break;
+                                    case 30:
+                                        color = 'green';
+                                        break;
+                                }
+                                return '<span class="grid-report-item ' + color + '">' + data + '</span >';
+                            }
+
 
                             $(document).ready(function() {
                                 $("#@Html.IdFor(model => model.GoDirectlyToCustomOrderNumber)").keydown(
@@ -422,6 +455,7 @@
                                     StartDate: $('#@Html.IdFor(model => model.StartDate)').val(),
                                     EndDate: $('#@Html.IdFor(model => model.EndDate)').val(),
                                     OrderStatusIds: $('#@Html.IdFor(model => model.OrderStatusIds)').val(),
+                                    OrderApprovalStatusIds: $('#@Html.IdFor(model => model.OrderApprovalStatusIds)').val(),
                                     PaymentStatusIds: $('#@Html.IdFor(model => model.PaymentStatusIds)').val(),
                                     ShippingStatusIds: $('#@Html.IdFor(model => model.ShippingStatusIds)').val(),
                                     StoreId: $('#@Html.IdFor(model => model.StoreId)').val(),

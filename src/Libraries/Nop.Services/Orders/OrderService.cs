@@ -153,6 +153,7 @@ namespace Nop.Services.Orders
         /// <param name="createdFromUtc">Created date from (UTC); null to load all records</param>
         /// <param name="createdToUtc">Created date to (UTC); null to load all records</param>
         /// <param name="osIds">Order status identifiers; null to load all orders</param>
+        /// <param name="oasIds">Order approval status identifiers; null to load all orders</param> // Porttomis Inc.
         /// <param name="psIds">Payment status identifiers; null to load all orders</param>
         /// <param name="ssIds">Shipping status identifiers; null to load all orders</param>
         /// <param name="billingPhone">Billing phone. Leave empty to load all records.</param>
@@ -168,7 +169,7 @@ namespace Nop.Services.Orders
             int productId = 0, int affiliateId = 0, int warehouseId = 0,
             int billingCountryId = 0, string paymentMethodSystemName = null,
             DateTime? createdFromUtc = null, DateTime? createdToUtc = null,
-            List<int> osIds = null, List<int> psIds = null, List<int> ssIds = null,
+            List<int> osIds = null, List<int> oasIds = null, List<int> psIds = null, List<int> ssIds = null,
             string billingPhone = null, string billingEmail = null, string billingLastName = "",
             string orderNotes = null, int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false)
         {
@@ -227,6 +228,8 @@ namespace Nop.Services.Orders
                 query = query.Where(o => createdToUtc.Value >= o.CreatedOnUtc);
             if (osIds != null && osIds.Any())
                 query = query.Where(o => osIds.Contains(o.OrderStatusId));
+            if (oasIds != null && oasIds.Any())
+                query = query.Where(o => oasIds.Contains(o.OrderApprovalStatusId));
             if (psIds != null && psIds.Any())
                 query = query.Where(o => psIds.Contains(o.PaymentStatusId));
             if (ssIds != null && ssIds.Any())

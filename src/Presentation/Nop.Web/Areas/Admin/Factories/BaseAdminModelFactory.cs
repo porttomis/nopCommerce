@@ -188,6 +188,29 @@ namespace Nop.Web.Areas.Admin.Factories
             PrepareDefaultItem(items, withSpecialDefaultItem, defaultItemText);
         }
 
+        // Porttomis Inc. Added for Order Approval 
+        /// <summary>
+        /// Prepare available order approval statuses
+        /// </summary>
+        /// <param name="items">Order Approval status items</param>
+        /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
+        /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
+        public virtual void PrepareOrderApprovalStatuses(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
+        {
+            if (items == null)
+                throw new ArgumentNullException(nameof(items));
+
+            //prepare available order statuses
+            var availableApprovalStatusItems = OrderApprovalStatus.Pending.ToSelectList(false);
+            foreach (var statusItem in availableApprovalStatusItems)
+            {
+                items.Add(statusItem);
+            }
+
+            //insert special item for the default value
+            PrepareDefaultItem(items, withSpecialDefaultItem, defaultItemText);
+        }
+
         /// <summary>
         /// Prepare available payment statuses
         /// </summary>

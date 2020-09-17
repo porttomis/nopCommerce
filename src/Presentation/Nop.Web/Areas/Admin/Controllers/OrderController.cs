@@ -419,7 +419,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             return RedirectToAction("List");
         }
 
-        public virtual IActionResult List(List<int> orderStatuses = null, List<int> paymentStatuses = null, List<int> shippingStatuses = null)
+        public virtual IActionResult List(List<int> orderStatuses = null, List<int> orderApprovalStatuses = null, List<int> paymentStatuses = null, List<int> shippingStatuses = null)
         {
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageOrders))
                 return AccessDeniedView();
@@ -428,6 +428,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             var model = _orderModelFactory.PrepareOrderSearchModel(new OrderSearchModel
             {
                 OrderStatusIds = orderStatuses,
+                OrderApprovalStatusIds = orderApprovalStatuses,
                 PaymentStatusIds = paymentStatuses,
                 ShippingStatusIds = shippingStatuses
             });

@@ -17,6 +17,7 @@ namespace Nop.Web.Areas.Admin.Models.Orders
         public OrderSearchModel()
         {
             AvailableOrderStatuses = new List<SelectListItem>();
+            AvailableOrderApprovalStatuses = new List<SelectListItem>();
             AvailablePaymentStatuses = new List<SelectListItem>();
             AvailableShippingStatuses = new List<SelectListItem>();
             AvailableStores = new List<SelectListItem>();
@@ -25,6 +26,7 @@ namespace Nop.Web.Areas.Admin.Models.Orders
             AvailablePaymentMethods = new List<SelectListItem>();
             AvailableCountries = new List<SelectListItem>();
             OrderStatusIds = new List<int>();
+            OrderApprovalStatusIds = new List<int>(); //Porttomis Inc.
             PaymentStatusIds = new List<int>();
             ShippingStatusIds = new List<int>();
         }
@@ -43,6 +45,10 @@ namespace Nop.Web.Areas.Admin.Models.Orders
 
         [NopResourceDisplayName("Admin.Orders.List.OrderStatus")]
         public IList<int> OrderStatusIds { get; set; }
+
+        // Porttomis Inc. Added Approval status id for Order Lists
+        [NopResourceDisplayName("Admin.Orders.List.OrderApprovalStatus")]
+        public IList<int> OrderApprovalStatusIds { get; set; }
 
         [NopResourceDisplayName("Admin.Orders.List.PaymentStatus")]
         public IList<int> PaymentStatusIds { get; set; }
@@ -88,6 +94,8 @@ namespace Nop.Web.Areas.Admin.Models.Orders
         public bool IsLoggedInAsVendor { get; set; }
 
         public IList<SelectListItem> AvailableOrderStatuses { get; set; }
+        //Porttomis Inc. 
+        public IList<SelectListItem> AvailableOrderApprovalStatuses { get; set; }
 
         public IList<SelectListItem> AvailablePaymentStatuses { get; set; }
 
