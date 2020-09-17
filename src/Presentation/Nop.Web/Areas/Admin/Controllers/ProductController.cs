@@ -968,6 +968,45 @@ namespace Nop.Web.Areas.Admin.Controllers
                 var previousStockQuantity = product.StockQuantity;
                 var previousWarehouseId = product.WarehouseId;
 
+                //Template
+                var chiliAttribute = _productAttributeService.GetAllProductAttributes().FirstOrDefault(pa => pa.Name == "ChiliDocID");
+                if (string.IsNullOrEmpty(model.ManufacturerPartNumber))
+                {
+                    if(model.ProductTemplateId == 3)
+                    {
+                        model.ProductTemplateId = 1; //Hardcoded simple ID
+                    }
+                    if(chiliAttribute != null)
+                    {
+                        var pam = _productAttributeService.GetProductAttributeMappingsByProductId(model.Id).FirstOrDefault(x => x.ProductAttributeId == chiliAttribute.Id);
+                        if(pam != null)
+                        {
+                            _productAttributeService.DeleteProductAttributeMapping(pam);
+                        }
+                    }
+                }
+                else
+                {
+                    if (model.ProductTemplateId != 3) //Hardcoded ID for chili
+                    {
+                        model.ProductTemplateId = 3;
+                    }
+                    if(chiliAttribute != null)
+                    {
+                        _productAttributeService.InsertProductAttributeMapping(new ProductAttributeMapping
+                        {
+                            ProductId = model.Id,
+                            ProductAttributeId = chiliAttribute.Id,
+                            TextPrompt = "ChiliDocID",
+                            IsRequired = false,
+                            AttributeControlType = AttributeControlType.TextBox,
+                            DisplayOrder = 0,
+                            ValidationMinLength = 0,
+                            ValidationMaxLength = 64,
+                        });
+                    }
+                }
+
                 //product
                 product = model.ToEntity(product);
 
