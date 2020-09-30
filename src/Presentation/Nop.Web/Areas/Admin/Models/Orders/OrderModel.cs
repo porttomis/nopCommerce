@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.WindowsAzure.Storage.Blob.Protocol;
 using Nop.Core.Domain.Tax;
 using Nop.Web.Areas.Admin.Models.Common;
 using Nop.Web.Framework.Models;
@@ -42,6 +43,10 @@ namespace Nop.Web.Areas.Admin.Models.Orders
         public Guid OrderGuid { get; set; }
         [NopResourceDisplayName("Admin.Orders.Fields.CustomOrderNumber")]
         public string CustomOrderNumber { get; set; }
+
+        // Added by Porttomis Inc. - Needed to store the external MIS Order ID
+        [NopResourceDisplayName("Admin.Orders.Fields.OrderExternalID")]
+        public string OrderExternalID { get; set; }
         
         //store
         [NopResourceDisplayName("Admin.Orders.Fields.Store")]
