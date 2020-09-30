@@ -38,6 +38,12 @@ namespace Nop.Core.Domain.Orders
         public int CustomerId { get; set; }
 
         /// <summary>
+        /// Gets or sets the external order identifier
+        /// </summary>
+        public string OrderExternalID { get; set; }
+
+        
+        /// <summary>
         /// Gets or sets the billing address identifier
         /// </summary>
         public int BillingAddressId { get; set; }

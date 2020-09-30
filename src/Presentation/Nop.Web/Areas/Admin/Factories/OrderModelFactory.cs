@@ -920,6 +920,9 @@ namespace Nop.Web.Areas.Admin.Factories
             var filterByProductId = product != null && (_workContext.CurrentVendor == null || product.VendorId == _workContext.CurrentVendor.Id)
                 ? searchModel.ProductId : 0;
 
+            // Added by Porttomis Inc. - search by OrderExternalID
+            var orderExternalID = searchModel.OrderExternalID;
+
             //get orders
             var orders = _orderService.SearchOrders(storeId: searchModel.StoreId,
                 vendorId: searchModel.VendorId,
@@ -956,7 +959,8 @@ namespace Nop.Web.Areas.Admin.Factories
                         CustomerEmail = order.BillingAddress.Email,
                         CustomerFullName = $"{order.BillingAddress.FirstName} {order.BillingAddress.LastName}",
                         CustomerId = order.CustomerId,
-                        CustomOrderNumber = order.CustomOrderNumber
+                        CustomOrderNumber = order.CustomOrderNumber,
+                        OrderExternalID = order.OrderExternalID
                     };
 
                     //convert dates to the user time

@@ -2500,10 +2500,11 @@ namespace Nop.Services.Orders
 
             CheckOrderStatus(order);
 
-            if (order.PaymentStatus == PaymentStatus.Paid)
-            {
+            // Porttomis Inc. - This logic is already applied with the CanMarkOrderAsIsApproved check above.
+            //if (order.PaymentStatus == PaymentStatus.Paid)
+            //{
                 ProcessOrderPaid(order);
-            }
+            //}
         }
 
         /// <summary>

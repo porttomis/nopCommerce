@@ -35,6 +35,10 @@ namespace Nop.Web.Areas.Admin.Models.Orders
 
         #region Properties
 
+        // Added by Porttomis Inc. in order to search by external order id
+        [NopResourceDisplayName("Admin.Orders.List.ExternalOrderID")]
+        public string OrderExternalID { get; set; }
+
         [NopResourceDisplayName("Admin.Orders.List.StartDate")]
         [UIHint("DateNullable")]
         public DateTime? StartDate { get; set; }
