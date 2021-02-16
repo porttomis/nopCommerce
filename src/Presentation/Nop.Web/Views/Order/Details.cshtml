@@ -43,9 +43,18 @@
                 <li class="order-date">
                     @T("Order.OrderDate"): @Model.CreatedOn.ToString("D")
                 </li>
-                <li class="order-status">
-                    @T("Order.OrderStatus"): @Model.OrderStatus
-                </li>
+                @if(Model.TharsternStatus != null)
+                {
+                    <li class="order-status">
+                        @T("Order.OrderStatus"): @Model.TharsternStatus
+                    </li>
+                }
+                else
+                {
+                    <li class="order-status">
+                        @T("Order.OrderStatus"): @Model.OrderStatus
+                    </li>
+                }
                 @if (!Model.ShowProductPrices) // Porttomis Inc. - Hide Prices from user, set property in Store settings
                 {
                     <li class="order-total">
