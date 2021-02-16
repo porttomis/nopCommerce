@@ -10,6 +10,7 @@ using Nop.Core.Domain.Shipping;
 using Nop.Core.Domain.Tax;
 using Nop.Core.Domain.Vendors;
 using Nop.Services.Catalog;
+using Nop.Services.Common;
 using Nop.Services.Directory;
 using Nop.Services.Helpers;
 using Nop.Services.Localization;
@@ -58,6 +59,7 @@ namespace Nop.Web.Factories
         private readonly ShippingSettings _shippingSettings;
         private readonly TaxSettings _taxSettings;
         private readonly VendorSettings _vendorSettings;
+        private readonly IGenericAttributeService _genericAttributeService;
 
         #endregion
 
@@ -89,7 +91,8 @@ namespace Nop.Web.Factories
             RewardPointsSettings rewardPointsSettings,
             ShippingSettings shippingSettings,
             TaxSettings taxSettings,
-            VendorSettings vendorSettings)
+            VendorSettings vendorSettings,
+            IGenericAttributeService genericAttributeService)
         {
             _addressSettings = addressSettings;
             _catalogSettings = catalogSettings;
@@ -118,11 +121,17 @@ namespace Nop.Web.Factories
             _shippingSettings = shippingSettings;
             _taxSettings = taxSettings;
             _vendorSettings = vendorSettings;
+            _genericAttributeService = genericAttributeService;
         }
 
         #endregion
 
         #region Methods
+
+        private string TharsternStatusKey(string id)
+        {
+            return $"Tharstern_orderStatus_{id}";
+        }
 
         /// <summary>
         /// Prepare the customer order list model
@@ -135,12 +144,18 @@ namespace Nop.Web.Factories
                 customerId: _workContext.CurrentCustomer.Id);
             foreach (var order in orders)
             {
+                string tharsternStatus = null;
+                if(order.OrderExternalID != null)
+                {
+                    tharsternStatus = _genericAttributeService.GetAttribute<string>(order, TharsternStatusKey(order.OrderExternalID));
+                }
                 var orderModel = new CustomerOrderListModel.OrderDetailsModel
                 {
                     Id = order.Id,
                     CreatedOn = _dateTimeHelper.ConvertToUserTime(order.CreatedOnUtc, DateTimeKind.Utc),
                     OrderStatusEnum = order.OrderStatus,
                     OrderStatus = _localizationService.GetLocalizedEnum(order.OrderStatus),
+                    TharsternStatus = tharsternStatus,
                     PaymentStatus = _localizationService.GetLocalizedEnum(order.PaymentStatus),
                     ShippingStatus = _localizationService.GetLocalizedEnum(order.ShippingStatus),
                     IsReturnRequestAllowed = _orderProcessingService.IsReturnRequestAllowed(order),
@@ -187,11 +202,19 @@ namespace Nop.Web.Factories
         {
             if (order == null)
                 throw new ArgumentNullException(nameof(order));
+
+            string tharsternStatus = null;
+            if (order.OrderExternalID != null)
+            {
+                tharsternStatus = _genericAttributeService.GetAttribute<string>(order, TharsternStatusKey(order.OrderExternalID));
+            }
+
             var model = new OrderDetailsModel
             {
                 Id = order.Id,
                 CreatedOn = _dateTimeHelper.ConvertToUserTime(order.CreatedOnUtc, DateTimeKind.Utc),
                 OrderStatus = _localizationService.GetLocalizedEnum(order.OrderStatus),
+                TharsternStatus = tharsternStatus,
                 IsReOrderAllowed = _orderSettings.IsReOrderAllowed,
                 IsReturnRequestAllowed = _orderProcessingService.IsReturnRequestAllowed(order),
                 PdfInvoiceDisabled = _pdfSettings.DisablePdfInvoicesForPendingOrders && order.OrderStatus == OrderStatus.Pending,

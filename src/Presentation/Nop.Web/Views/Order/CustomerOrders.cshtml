@@ -139,11 +139,18 @@
                             <strong>@T("Account.CustomerOrders.OrderNumber"): @order.CustomOrderNumber</strong>
                         </div>
                         <ul class="info">
-                            <li>@T("Account.CustomerOrders.OrderStatus"): <span class="order-status @order.OrderStatusEnum.ToString().ToLowerInvariant()">@order.OrderStatus</span></li>
+                            @if (order.TharsternStatus != null)
+                            {
+                                <li>@T("Account.CustomerOrders.OrderStatus"): <span class="order-status @order.OrderStatusEnum.ToString().ToLowerInvariant()">@order.TharsternStatus</span></li>
+                            }
+                            else
+                            {
+                                <li>@T("Account.CustomerOrders.OrderStatus"): <span class="order-status @order.OrderStatusEnum.ToString().ToLowerInvariant()">@order.OrderStatus</span></li>
+                            }
                             <li>@T("Account.CustomerOrders.OrderDate"): <span class="order-date">@order.CreatedOn.ToString()</span></li>
                             @if (!Model.ShowProductPrices)
-                            { 
-                            <li>@T("Account.CustomerOrders.OrderTotal"): <span class="order-total">@order.OrderTotal</span></li>
+                            {
+                                <li>@T("Account.CustomerOrders.OrderTotal"): <span class="order-total">@order.OrderTotal</span></li>
                             }
                         </ul>
                         <div class="buttons">

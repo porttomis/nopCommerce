@@ -31,6 +31,8 @@ namespace Nop.Web.Models.Order
 
         public string OrderStatus { get; set; }
 
+        public string TharsternStatus { get; set; }
+
         public bool IsReOrderAllowed { get; set; }
 
         public bool IsReturnRequestAllowed { get; set; }

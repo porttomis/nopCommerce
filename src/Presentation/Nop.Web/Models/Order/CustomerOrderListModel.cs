@@ -30,6 +30,7 @@ namespace Nop.Web.Models.Order
             public bool IsReturnRequestAllowed { get; set; }
             public OrderStatus OrderStatusEnum { get; set; }
             public string OrderStatus { get; set; }
+            public string TharsternStatus { get; set; }
             public string PaymentStatus { get; set; }
             public string ShippingStatus { get; set; }
             public DateTime CreatedOn { get; set; }
