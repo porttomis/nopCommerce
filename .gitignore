@@ -197,3 +197,4 @@ src/Plugins/Nop.Plugin.Widgets.ChiliView/
 src/Presentation/Nop.Web/wwwroot/pdf
 src/Tests/Nop.Porttomis.Tests/
 src/Presentation/Nop.Web/Properties/launchSettings.json
+src/Presentation/Nop.Web/wwwroot/images/
