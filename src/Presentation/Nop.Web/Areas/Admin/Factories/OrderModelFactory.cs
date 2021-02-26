@@ -940,7 +940,9 @@ namespace Nop.Web.Areas.Admin.Factories
                 billingLastName: searchModel.BillingLastName,
                 billingCountryId: searchModel.BillingCountryId,
                 orderNotes: searchModel.OrderNotes,
-                pageIndex: searchModel.Page - 1, pageSize: searchModel.PageSize);
+                pageIndex: searchModel.Page - 1, 
+                pageSize: searchModel.PageSize,
+                orderExternalID: searchModel.OrderExternalID);
 
             //prepare list model
             var model = new OrderListModel().PrepareToGrid(searchModel, orders, () =>
@@ -1078,6 +1080,7 @@ namespace Nop.Web.Areas.Admin.Factories
 
                 model.OrderGuid = order.OrderGuid;
                 model.CustomOrderNumber = order.CustomOrderNumber;
+                model.OrderExternalID = order.OrderExternalID;
                 model.CustomerIp = order.CustomerIp;
                 model.CustomerId = order.CustomerId;
                 model.OrderStatus = _localizationService.GetLocalizedEnum(order.OrderStatus);

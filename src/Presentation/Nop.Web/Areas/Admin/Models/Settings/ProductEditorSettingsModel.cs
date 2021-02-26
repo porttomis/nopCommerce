@@ -217,6 +217,9 @@ namespace Nop.Web.Areas.Admin.Models.Settings
         [NopResourceDisplayName("Admin.Configuration.Settings.ProductEditor.Editor_ViewConstraints")]
         public bool Editor_ViewConstraints { get; set; }
 
+        [NopResourceDisplayName("Admin.Configuration.Settings.ProductEditor.RequiresApproval")]
+        public bool RequiresApproval { get; set; }
+
         #endregion
     }
 }

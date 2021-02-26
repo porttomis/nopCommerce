@@ -598,6 +598,8 @@ namespace Nop.Services.Orders
             details.AppliedGiftCards = appliedGiftCards;
             details.OrderTotal = orderTotal.Value;
 
+            
+
             //discount history
             foreach (var disc in orderAppliedDiscounts)
                 if (!_discountService.ContainsDiscount(details.AppliedDiscounts, disc))
@@ -756,6 +758,7 @@ namespace Nop.Services.Orders
             var query = from a in details.Cart
                         where a.Product.RequiresApproval = true
                         select a;
+
             int productapprovals = query.Count(); //Porttomis Inc. Set number of products requiring approval
             
             var order = new Order

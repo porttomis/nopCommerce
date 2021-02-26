@@ -36,7 +36,7 @@
         </div>
         <div class="hint">@T("ShoppingCart.EstimateShipping.Tooltip")</div>
         <div class="shipping-options">
-            <div class="inputs">
+            <div class="">
                 <label asp-for="CountryId" asp-postfix=":"></label>
                 <select asp-for="CountryId" asp-items="Model.AvailableCountries"
                         class="country-input"
@@ -46,12 +46,12 @@
                         data-loading="#estimate-shipping-loading-progress"></select>
                 <nop-required />
             </div>
-            <div class="inputs">
+            <div class="">
                 <label asp-for="StateProvinceId" asp-postfix=":"></label>
                 <select asp-for="StateProvinceId" asp-items="Model.AvailableStates" class="state-input"></select>
                 <span id="estimate-shipping-loading-progress" style="display: none;" class="please-wait">@T("Common.Wait...")</span>
             </div>
-            <div class="inputs">
+            <div class="">
                 <label asp-for="ZipPostalCode" asp-postfix=":"></label>
                 <input asp-for="ZipPostalCode" class="zip-input"/>
                 <nop-required />

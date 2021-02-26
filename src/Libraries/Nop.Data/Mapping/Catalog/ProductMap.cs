@@ -44,6 +44,7 @@ namespace Nop.Data.Mapping.Catalog
             builder.Property(product => product.Editor_WorkSpace).HasMaxLength(64);
             builder.Property(product => product.Editor_ViewPrefs).HasMaxLength(400);
             builder.Property(product => product.Editor_ViewConstraints).HasMaxLength(400);
+            builder.Property(product => product.RequiresApproval).HasColumnType("bit");
 
             builder.Ignore(product => product.ProductType);
             builder.Ignore(product => product.BackorderMode);

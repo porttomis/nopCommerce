@@ -825,7 +825,7 @@ namespace Nop.Web.Factories
 
             //Porttomis Inc.
             model.ShowProductPrices = _storeContext.CurrentStore.Showprices;
-
+            
             model.IsEditable = isEditable;
             model.ShowProductImages = _shoppingCartSettings.ShowProductImagesOnShoppingCart;
             model.ShowSku = _catalogSettings.ShowSkuOnProductDetailsPage;
