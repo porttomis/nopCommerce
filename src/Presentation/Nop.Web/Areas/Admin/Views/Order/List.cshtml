@@ -259,6 +259,14 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="col-md-4">
+                                            <nop-label asp-for="OrderExternalID" />
+                                        </div>
+                                        <div class="col-md-8">
+                                            <nop-editor asp-for="OrderExternalID" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-4">
                                             <nop-label asp-for="GoDirectlyToCustomOrderNumber" />
                                         </div>
                                         <div class="col-md-8">
@@ -315,7 +323,8 @@
                                                     new FilterParameter(nameof(Model.BillingCountryId)),
                                                     new FilterParameter(nameof(Model.PaymentMethodSystemName)),
                                                     new FilterParameter(nameof(Model.ProductId)),
-                                                    new FilterParameter(nameof(Model.OrderNotes))
+                                                    new FilterParameter(nameof(Model.OrderNotes)),
+                                                    new FilterParameter(nameof(Model.OrderExternalID))
                                                 }
                             };
                             gridModel.ColumnCollection = new List<ColumnProperty>
@@ -333,9 +342,16 @@
                                                     Width = "80"
                                                 }
                                             };
+
                             //a vendor does not have access to this functionality
                             if (!Model.IsLoggedInAsVendor)
                             {
+                                gridModel.ColumnCollection.Add(new ColumnProperty(nameof(OrderModel.OrderExternalID))
+                                {
+                                    Title = T("Admin.Orders.Fields.OrderExternalID").Text,
+                                    Width = "80"
+                                });
+
                                 gridModel.ColumnCollection.Add(new ColumnProperty(nameof(OrderModel.OrderStatus))
                                 {
                                     Title = T("Admin.Orders.Fields.OrderStatus").Text,

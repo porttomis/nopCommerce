@@ -828,6 +828,10 @@ namespace Nop.Web.Areas.Admin.Controllers
                 model.SeName = _urlRecordService.ValidateSeName(product, model.SeName, product.Name, true);
                 _urlRecordService.SaveSlug(product, model.SeName, 0);
 
+
+                //Porttomis Inc.
+                model.RequiresApproval = product.RequiresApproval;
+
                 //locales
                 UpdateLocales(product, model);
 
@@ -960,6 +964,9 @@ namespace Nop.Web.Areas.Admin.Controllers
                 //vendors cannot edit "Show on home page" property
                 if (_workContext.CurrentVendor != null && model.ShowOnHomepage != product.ShowOnHomepage)
                     model.ShowOnHomepage = product.ShowOnHomepage;
+
+                //Porttomis Inc.
+                model.RequiresApproval = product.RequiresApproval;
 
                 //some previously used values
                 var prevTotalStockQuantity = _productService.GetTotalStockQuantity(product);

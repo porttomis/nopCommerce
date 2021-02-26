@@ -48,6 +48,9 @@ namespace Nop.Web.Models.Catalog
         public bool ShowSku { get; set; }
         public string Sku { get; set; }
 
+        //Porttomis Inc.
+        public bool RequiresApproval { get; set; }
+
         public bool ShowManufacturerPartNumber { get; set; }
         public string ManufacturerPartNumber { get; set; }
 
@@ -150,7 +153,8 @@ namespace Nop.Web.Models.Catalog
 
             //Porttomis Inc.
             public bool RequiresEditor { get; set; }
-            
+
+             
             //rental
             public bool IsRental { get; set; }
 

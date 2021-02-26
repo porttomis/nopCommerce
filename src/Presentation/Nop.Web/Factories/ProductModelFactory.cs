@@ -656,7 +656,7 @@ namespace Nop.Web.Factories
                 model.UpdatedShoppingCartItemId = updatecartitem.Id;
                 model.UpdateShoppingCartItemType = updatecartitem.ShoppingCartType;
             }
-
+            //model.RequiresApproval = product.RequiresApproval;
             //quantity
             model.EnteredQuantity = updatecartitem != null ? updatecartitem.Quantity : product.OrderMinimumQuantity;
             //allowed quantities
@@ -699,6 +699,9 @@ namespace Nop.Web.Factories
             }
             //rental
             model.IsRental = product.IsRental;
+
+            ////Porttomis Inc. - Product requires approval
+            //model.RequiresApproval = product.RequiresApproval;
 
             //customer entered price
             model.CustomerEntersPrice = product.CustomerEntersPrice;
@@ -1182,7 +1185,8 @@ namespace Nop.Web.Factories
                 ManageInventoryMethod = product.ManageInventoryMethod,
                 StockAvailability = _productService.FormatStockMessage(product, ""),
                 HasSampleDownload = product.IsDownload && product.HasSampleDownload,
-                DisplayDiscontinuedMessage = !product.Published && _catalogSettings.DisplayDiscontinuedMessageForUnpublishedProducts
+                DisplayDiscontinuedMessage = !product.Published && _catalogSettings.DisplayDiscontinuedMessageForUnpublishedProducts,
+                RequiresApproval = product.RequiresApproval
             };
 
             //automatically generate product description?

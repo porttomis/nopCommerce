@@ -129,6 +129,7 @@ namespace Nop.Web.Controllers
             if (notAvailable) return InvokeHttp404();
             #endregion
 
+
             //Check whether the current user has a "Manage products" permission (usually a store owner)
             //We should allows him (her) to use "Preview" functionality
             //var hasAdminAccess = _permissionService.Authorize(StandardPermissionProvider.AccessAdminPanel) && _permissionService.Authorize(StandardPermissionProvider.ManageProducts);
